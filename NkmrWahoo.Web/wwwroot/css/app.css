@@ -4068,6 +4068,16 @@ html:has(.drawer-toggle:checked) {
   border-color: var(--fallback-bc,oklch(var(--bc)/0.05));
 }
 
+.border-blue-400 {
+  --tw-border-opacity: 1;
+  border-color: rgb(96 165 250 / var(--tw-border-opacity, 1));
+}
+
+.border-blue-600 {
+  --tw-border-opacity: 1;
+  border-color: rgb(37 99 235 / var(--tw-border-opacity, 1));
+}
+
 .border-green-500 {
   --tw-border-opacity: 1;
   border-color: rgb(34 197 94 / var(--tw-border-opacity, 1));
@@ -4076,11 +4086,6 @@ html:has(.drawer-toggle:checked) {
 .border-orange-500 {
   --tw-border-opacity: 1;
   border-color: rgb(249 115 22 / var(--tw-border-opacity, 1));
-}
-
-.border-primary {
-  --tw-border-opacity: 1;
-  border-color: var(--fallback-p,oklch(var(--p)/var(--tw-border-opacity, 1)));
 }
 
 .border-primary\/30 {
@@ -4094,11 +4099,6 @@ html:has(.drawer-toggle:checked) {
 .border-red-500 {
   --tw-border-opacity: 1;
   border-color: rgb(239 68 68 / var(--tw-border-opacity, 1));
-}
-
-.border-sky-400 {
-  --tw-border-opacity: 1;
-  border-color: rgb(56 189 248 / var(--tw-border-opacity, 1));
 }
 
 .border-slate-400 {
@@ -4186,6 +4186,11 @@ html:has(.drawer-toggle:checked) {
 
 .bg-black\/85 {
   background-color: rgb(0 0 0 / 0.85);
+}
+
+.bg-blue-700 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(29 78 216 / var(--tw-bg-opacity, 1));
 }
 
 .bg-info\/90 {
@@ -4466,11 +4471,6 @@ html:has(.drawer-toggle:checked) {
   letter-spacing: 0.1em;
 }
 
-.text-accent {
-  --tw-text-opacity: 1;
-  color: var(--fallback-a,oklch(var(--a)/var(--tw-text-opacity, 1)));
-}
-
 .text-base-content {
   --tw-text-opacity: 1;
   color: var(--fallback-bc,oklch(var(--bc)/var(--tw-text-opacity, 1)));
@@ -4490,6 +4490,11 @@ html:has(.drawer-toggle:checked) {
 
 .text-base-content\/80 {
   color: var(--fallback-bc,oklch(var(--bc)/0.8));
+}
+
+.text-blue-500 {
+  --tw-text-opacity: 1;
+  color: rgb(59 130 246 / var(--tw-text-opacity, 1));
 }
 
 .text-error {
@@ -4641,12 +4646,12 @@ html:has(.drawer-toggle:checked) {
   --tw-ring-color: var(--fallback-b1,oklch(var(--b1)/var(--tw-ring-opacity, 1)));
 }
 
-.ring-primary\/20 {
-  --tw-ring-color: var(--fallback-p,oklch(var(--p)/0.2));
+.ring-blue-500\/40 {
+  --tw-ring-color: rgb(59 130 246 / 0.4);
 }
 
-.ring-primary\/40 {
-  --tw-ring-color: var(--fallback-p,oklch(var(--p)/0.4));
+.ring-primary\/20 {
+  --tw-ring-color: var(--fallback-p,oklch(var(--p)/0.2));
 }
 
 .backdrop-blur {
@@ -4812,8 +4817,8 @@ html:has(.drawer-toggle:checked) {
     gap: 0.75rem;
   }
 
-  .sm\:gap-6 {
-    gap: 1.5rem;
+  .sm\:gap-8 {
+    gap: 2rem;
   }
 
   .sm\:px-3 {
@@ -4836,9 +4841,9 @@ html:has(.drawer-toggle:checked) {
     line-height: 1.75rem;
   }
 
-  .sm\:text-sm {
-    font-size: 0.875rem;
-    line-height: 1.25rem;
+  .sm\:text-xl {
+    font-size: 1.25rem;
+    line-height: 1.75rem;
   }
 
   .sm\:text-xs {

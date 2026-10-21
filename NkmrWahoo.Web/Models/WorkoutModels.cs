@@ -60,7 +60,7 @@ namespace NkmrWahoo.Web.Models
         public string GetZoneColor(double ratio)
         {
             if (ratio < 0.55) return "#94a3b8"; // Slate / Gris
-            if (ratio < 0.75) return "#38bdf8"; // Bleu clair
+            if (ratio < 0.75) return "#2563eb"; // Bleu franc (lisible sur TV, non fluo)
             if (ratio < 0.90) return "#22c55e"; // Vert
             if (ratio < 1.05) return "#eab308"; // Jaune
             if (ratio < 1.20) return "#f97316"; // Orange

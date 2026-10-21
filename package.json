@@ -1,0 +1,13 @@
+{
+    "commands": {
+        "Pull origin develop": "git pull origin develop",
+        "Build Release": "dotnet build --configuration Release",
+        "Build NoError": "dotnet build --no-restore -clp:ErrorsOnly /p:WarningLevel=0",
+        "Build Debug": "dotnet build --configuration Debug",
+        "Publish Debug": "dotnet publish -c Debug -o ./publish",
+        "Publish Release": "dotnet publish -c Release -o ./publish",
+        "Antigravity": "agy",
+        "Agy all": "agy --dangerously-skip-permissions",
+        "Agy Usage": "antigravity-usage"
+    }
+}

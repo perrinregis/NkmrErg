@@ -289,10 +289,18 @@ window.workoutScreen = {
         } catch (e) { }
     },
     scrollToActiveStep: function (elementId) {
-        const el = document.getElementById(elementId);
-        if (el) {
-            el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
+        setTimeout(() => {
+            const container = document.getElementById('workout-steps-container');
+            const el = document.getElementById(elementId);
+            if (container && el) {
+                const containerRect = container.getBoundingClientRect();
+                const elRect = el.getBoundingClientRect();
+                const targetTop = container.scrollTop + (elRect.top - containerRect.top) - 6;
+                container.scrollTo({ top: Math.max(0, targetTop), behavior: 'smooth' });
+            } else if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }, 40);
     },
     toggleFullscreen: async function () {
         try {
@@ -338,9 +346,13 @@ window.tronHighway = {
     currentSpeed: 25,
     targetHorizonYRatio: 0.55,
     currentHorizonYRatio: 0.55,
-    targetColor: "#38bdf8",
-    currentColor: [56, 189, 248],
-    targetRgb: [56, 189, 248],
+    nextHorizonYRatio: 0.55,
+    targetColor: "#2563eb",
+    currentColor: [37, 99, 235],
+    targetRgb: [37, 99, 235],
+    nextRgb: [37, 99, 235],
+    finDeZoneBlend: 0,
+    smoothRemaining: 999,
     cadence: 0,
     power: 0,
     isRunning: false,
@@ -380,12 +392,16 @@ window.tronHighway = {
         }
     },
 
-    update: function (speedKmh, cadence, targetRatio, currentPower, isRunning, zoneColorHex, targetWatts, remainingSeconds) {
+    update: function (speedKmh, cadence, targetRatio, currentPower, isRunning, zoneColorHex, targetWatts, remainingSeconds, nextRatio, nextZoneColorHex) {
         this.cadence = cadence || 0;
         this.power = currentPower || 0;
         this.isRunning = isRunning;
         this.targetWatts = targetWatts || 0;
-        this.remainingSeconds = (remainingSeconds !== undefined) ? remainingSeconds : 999;
+        const newRem = (remainingSeconds !== undefined) ? remainingSeconds : 999;
+        if (Math.abs(newRem - this.smoothRemaining) > 1.5 || newRem > this.remainingSeconds) {
+            this.smoothRemaining = newRem;
+        }
+        this.remainingSeconds = newRem;
 
         // Vitesse d'animation : réelle ou basée sur cadence
         let spd = speedKmh || 0;
@@ -402,15 +418,24 @@ window.tronHighway = {
         const horizonNorm = 0.58 - (ratio - 0.5) * 0.22;
         this.targetHorizonYRatio = Math.max(0.26, Math.min(0.68, horizonNorm));
 
-        // Teinte de la zone
+        const nRatio = Math.max(0.4, Math.min((nextRatio !== undefined ? nextRatio : ratio), 1.8));
+        const nextHorizonNorm = 0.58 - (nRatio - 0.5) * 0.22;
+        this.nextHorizonYRatio = Math.max(0.26, Math.min(0.68, nextHorizonNorm));
+
+        // Teinte de la zone actuelle et de la zone suivante
         if (zoneColorHex) {
             this.targetColor = zoneColorHex;
             this.targetRgb = this.hexToRgb(zoneColorHex);
         }
+        if (nextZoneColorHex) {
+            this.nextRgb = this.hexToRgb(nextZoneColorHex);
+        } else {
+            this.nextRgb = this.targetRgb.slice();
+        }
     },
 
     hexToRgb: function (hex) {
-        hex = (hex || "#38bdf8").replace('#', '');
+        hex = (hex || "#2563eb").replace('#', '');
         if (hex.length === 3) {
             hex = hex.split('').map(c => c + c).join('');
         }
@@ -428,15 +453,55 @@ window.tronHighway = {
         const H = this.height;
         const ctx = this.ctx;
 
-        // Lissage dynamique des variables (effet d'inertie sportive)
-        this.currentSpeed += (this.targetSpeed - this.currentSpeed) * Math.min(dt * 3.5, 1);
-        this.currentHorizonYRatio += (this.targetHorizonYRatio - this.currentHorizonYRatio) * Math.min(dt * 2.5, 1);
+        // Décompte continu fluide pour le fondu des 5 dernières secondes
+        if (this.isRunning && this.remainingSeconds <= 5 && this.remainingSeconds > 0) {
+            this.smoothRemaining = Math.max(0, this.smoothRemaining - dt);
+            // Garde smoothRemaining cohérent avec remainingSeconds
+            if (this.smoothRemaining > this.remainingSeconds) {
+                this.smoothRemaining = this.remainingSeconds;
+            } else if (this.remainingSeconds - this.smoothRemaining > 1.05) {
+                this.smoothRemaining = this.remainingSeconds - 0.95;
+            }
+        } else {
+            this.smoothRemaining = this.remainingSeconds;
+        }
+
+        const isFinDeZone = this.isRunning && this.remainingSeconds > 0 && this.remainingSeconds <= 5;
+        // Blend d'état fin de zone (évite tout saut brusque de géométrie 3D)
+        this.finDeZoneBlend += ((isFinDeZone ? 1.0 : 0.0) - this.finDeZoneBlend) * Math.min(dt * 2.5, 1);
+
+        // Progression du fondu vers le palier suivant (de 0.0 à 5s jusqu'à 1.0 à 0s)
+        const nextStepFade = isFinDeZone
+            ? Math.max(0, Math.min(1, (5.0 - this.smoothRemaining) / 5.0))
+            : 0;
+
+        // Horizon cible combiné (fondu progressif vers le relief du prochain palier)
+        const effectiveTargetHorizon = this.targetHorizonYRatio * (1 - nextStepFade * 0.85) + this.nextHorizonYRatio * (nextStepFade * 0.85);
+
+        // Couleur cible combinée (fondu progressif vers la couleur du prochain palier)
+        const effectiveTargetRgb = [
+            this.targetRgb[0] * (1 - nextStepFade * 0.75) + this.nextRgb[0] * (nextStepFade * 0.75),
+            this.targetRgb[1] * (1 - nextStepFade * 0.75) + this.nextRgb[1] * (nextStepFade * 0.75),
+            this.targetRgb[2] * (1 - nextStepFade * 0.75) + this.nextRgb[2] * (nextStepFade * 0.75)
+        ];
+
+        // Lissage dynamique des variables (effet d'inertie sportive très doux)
+        this.currentSpeed += (this.targetSpeed - this.currentSpeed) * Math.min(dt * 3.0, 1);
+        this.currentHorizonYRatio += (effectiveTargetHorizon - this.currentHorizonYRatio) * Math.min(dt * 1.8, 1);
         for (let i = 0; i < 3; i++) {
-            this.currentColor[i] += (this.targetRgb[i] - this.currentColor[i]) * Math.min(dt * 3.5, 1);
+            this.currentColor[i] += (effectiveTargetRgb[i] - this.currentColor[i]) * Math.min(dt * 2.2, 1);
         }
         const [r, g, b] = this.currentColor.map(v => Math.round(v));
         const zoneCol = `rgb(${r},${g},${b})`;
         const zoneColAlpha = (a) => `rgba(${r},${g},${b},${a})`;
+
+        // Couleur d'horizon (qui prend d'abord la couleur du prochain palier pour annoncer ce qui arrive au loin)
+        const horizonMix = Math.min(1, nextStepFade * 1.15);
+        const hr = Math.round(r * (1 - horizonMix) + this.nextRgb[0] * horizonMix);
+        const hg = Math.round(g * (1 - horizonMix) + this.nextRgb[1] * horizonMix);
+        const hb = Math.round(b * (1 - horizonMix) + this.nextRgb[2] * horizonMix);
+        const horizonCol = `rgb(${hr},${hg},${hb})`;
+        const horizonColAlpha = (a) => `rgba(${hr},${hg},${hb},${a})`;
 
         // Avance sur la route
         this.travelZ += this.currentSpeed * 2.2 * dt;
@@ -453,11 +518,11 @@ window.tronHighway = {
         ctx.fillStyle = bgGrad;
         ctx.fillRect(0, 0, W, H);
 
-        // 2. Halo d'horizon
+        // 2. Halo d'horizon (fondu avec la couleur du palier à venir)
         const sunRadius = Math.min(W * 0.16, 75);
         const sunGrad = ctx.createRadialGradient(cx, hy, 2, cx, hy, sunRadius * 1.6);
-        sunGrad.addColorStop(0, zoneColAlpha(0.35));
-        sunGrad.addColorStop(0.5, zoneColAlpha(0.1));
+        sunGrad.addColorStop(0, horizonColAlpha(0.35));
+        sunGrad.addColorStop(0.5, horizonColAlpha(0.1));
         sunGrad.addColorStop(1, 'rgba(0,0,0,0)');
         ctx.fillStyle = sunGrad;
         ctx.beginPath();
@@ -466,9 +531,9 @@ window.tronHighway = {
 
         // Ligne d'horizon néon
         ctx.save();
-        ctx.strokeStyle = zoneColAlpha(0.85);
+        ctx.strokeStyle = horizonColAlpha(0.85);
         ctx.lineWidth = 2;
-        ctx.shadowColor = zoneCol;
+        ctx.shadowColor = horizonCol;
         ctx.shadowBlur = 10;
         ctx.beginPath();
         ctx.moveTo(0, hy);
@@ -480,7 +545,7 @@ window.tronHighway = {
         const mountainHeight = (0.7 - this.currentHorizonYRatio) * (H * 0.85);
         if (mountainHeight > 5) {
             ctx.save();
-            ctx.strokeStyle = zoneColAlpha(0.32);
+            ctx.strokeStyle = horizonColAlpha(0.32);
             ctx.lineWidth = 1;
             ctx.beginPath();
             ctx.moveTo(0, hy);
@@ -513,6 +578,19 @@ window.tronHighway = {
             return { x: screenX, y: screenY, scale: scale };
         };
 
+        // Fonction utilitaire de couleur selon la profondeur Z (le nouveau palier arrive depuis l'horizon vers le cycliste)
+        const colorAtDepth = (z, alpha) => {
+            if (nextStepFade <= 0.01) return zoneColAlpha(alpha);
+            const zNorm = (z - zNear) / (zFar - zNear); // 0 près de soi, 1 à l'horizon
+            // Onde de transition qui avance de l'horizon (zNorm=1) vers le premier plan (zNorm=0)
+            const waveFront = 1.0 - nextStepFade;
+            const localNextMix = Math.max(0, Math.min(1, (zNorm - waveFront + 0.35) / 0.55));
+            const cr = Math.round(r * (1 - localNextMix) + this.nextRgb[0] * localNextMix);
+            const cg = Math.round(g * (1 - localNextMix) + this.nextRgb[1] * localNextMix);
+            const cb = Math.round(b * (1 - localNextMix) + this.nextRgb[2] * localNextMix);
+            return `rgba(${cr},${cg},${cb},${alpha})`;
+        };
+
         // 5. Grille latérale (rayons du sol)
         ctx.save();
         ctx.strokeStyle = zoneColAlpha(0.18);
@@ -526,14 +604,14 @@ window.tronHighway = {
             ctx.stroke();
         }
 
-        // 6. Ruban de la route (remplissage dégradé sombre)
+        // 6. Ruban de la route (remplissage dégradé sombre du loin vers le près)
         const pTopLeft = project(-roadWorldW / 2, zFar);
         const pTopRight = project(roadWorldW / 2, zFar);
         const pBottomLeft = project(-roadWorldW / 2, zNear);
         const pBottomRight = project(roadWorldW / 2, zNear);
 
         const roadGrad = ctx.createLinearGradient(0, hy, 0, H);
-        roadGrad.addColorStop(0, zoneColAlpha(0.08));
+        roadGrad.addColorStop(0, horizonColAlpha(0.12));
         roadGrad.addColorStop(1, zoneColAlpha(0.22));
         ctx.fillStyle = roadGrad;
         ctx.beginPath();
@@ -558,15 +636,15 @@ window.tronHighway = {
             const depthRatio = (pL.y - hy) / groundH;
             const alpha = Math.min(1, Math.max(0.1, depthRatio * depthRatio * 1.2));
 
-            // Barreau sur la route
-            ctx.strokeStyle = zoneColAlpha(alpha * 0.85);
+            // Barreau sur la route avec fondu de profondeur
+            ctx.strokeStyle = colorAtDepth(z, alpha * 0.85);
             ctx.beginPath();
             ctx.moveTo(pL.x, pL.y);
             ctx.lineTo(pR.x, pR.y);
             ctx.stroke();
 
             // Rallonges latérales hors de la route
-            ctx.strokeStyle = zoneColAlpha(alpha * 0.22);
+            ctx.strokeStyle = colorAtDepth(z, alpha * 0.22);
             ctx.beginPath();
             ctx.moveTo(0, pL.y);
             ctx.lineTo(pL.x, pL.y);
@@ -575,11 +653,15 @@ window.tronHighway = {
             ctx.stroke();
         }
 
-        // 8. Rails néon extérieurs avec lueur intense
+        // 8. Rails néon extérieurs avec dégradé de transition
+        const railGrad = ctx.createLinearGradient(0, hy, 0, H);
+        railGrad.addColorStop(0, horizonCol);
+        railGrad.addColorStop(1, zoneCol);
+
         ctx.shadowColor = zoneCol;
         ctx.shadowBlur = 12;
         ctx.lineWidth = 3;
-        ctx.strokeStyle = zoneCol;
+        ctx.strokeStyle = railGrad;
 
         // Rail gauche
         ctx.beginPath();
@@ -620,14 +702,14 @@ window.tronHighway = {
         ctx.setLineDash([]);
         ctx.restore();
 
-        // 9. Portiques / Arches cybernétiques (Losanges Tron)
-        const isFinDeZone = this.isRunning && this.remainingSeconds > 0 && this.remainingSeconds <= 5;
-        const blinkOn = (now % 360) < 200; // Clignotement ~2.8 Hz pour l'alerte
-
-        const archSpacing = isFinDeZone ? 80 : 160;
+        // 9. Portiques / Arches cybernétiques (Losanges Tron sans saut brutal de géométrie)
+        // Espacement constant (130) pour que les arches ne se téléportent jamais au passage à 5s
+        const archSpacing = 130;
         const archOffset = this.travelZ % archSpacing;
-        const archWorldH = isFinDeZone ? 1.45 : 0.95; // Losanges beaucoup plus gros
-        const archWorldW = roadWorldW * (isFinDeZone ? 1.70 : 1.15); // Plus larges
+        const fz = this.finDeZoneBlend;
+        const archWorldH = 0.95 + fz * 0.42; // Grandit en fondu fluide
+        const archWorldW = roadWorldW * (1.15 + fz * 0.45); // S'élargit en fondu fluide
+        const pulseWave = 0.5 + 0.5 * Math.sin(now * 0.012); // Pulsation sinusoïdale douce au lieu d'un clignotement brutal
 
         for (let z = zFar - archOffset; z >= zNear; z -= archSpacing) {
             const pBaseL = project(-archWorldW / 2, z);
@@ -639,24 +721,18 @@ window.tronHighway = {
             if (pBaseL.y < hy || pBaseL.y > H + 50) continue;
 
             const depthRatio = Math.min(1, Math.max(0.1, (pBaseL.y - hy) / groundH));
-            const chamfer = (pBaseR.x - pBaseL.x) * (isFinDeZone ? 0.28 : 0.18);
+            const chamfer = (pBaseR.x - pBaseL.x) * (0.18 + fz * 0.08);
+            const archColor = colorAtDepth(z, depthRatio * 0.9);
 
             ctx.save();
-            if (isFinDeZone) {
-                // Alerte clignotante éclatante
-                if (blinkOn) {
-                    ctx.strokeStyle = '#ffffff';
-                    ctx.shadowColor = zoneCol;
-                    ctx.shadowBlur = Math.min(26, 8 + depthRatio * 18);
-                    ctx.lineWidth = Math.max(3.0, depthRatio * 6.5);
-                } else {
-                    ctx.strokeStyle = zoneColAlpha(0.3);
-                    ctx.shadowColor = zoneCol;
-                    ctx.shadowBlur = 6;
-                    ctx.lineWidth = Math.max(1.5, depthRatio * 3.0);
-                }
+            if (fz > 0.05) {
+                const whiteMix = fz * pulseWave * 0.75;
+                ctx.strokeStyle = whiteMix > 0.45 ? `rgba(255,255,255,${0.65 + whiteMix * 0.35})` : archColor;
+                ctx.shadowColor = horizonCol;
+                ctx.shadowBlur = Math.min(22, 6 + depthRatio * (10 + fz * 10));
+                ctx.lineWidth = Math.max(1.5, depthRatio * (3.5 + fz * 2.2 * pulseWave));
             } else {
-                ctx.strokeStyle = zoneColAlpha(depthRatio * 0.9);
+                ctx.strokeStyle = archColor;
                 ctx.shadowColor = zoneCol;
                 ctx.shadowBlur = Math.min(14, 4 + depthRatio * 10);
                 ctx.lineWidth = Math.max(1.5, depthRatio * 3.5);
@@ -672,10 +748,11 @@ window.tronHighway = {
             ctx.lineTo(pBaseR.x, pBaseR.y);
             ctx.stroke();
 
-            // En fin de zone, double contour intérieur pour accentuer l'effet losange
-            if (isFinDeZone) {
+            // Double contour intérieur en fondu progressif pendant les 5 dernières secondes
+            if (fz > 0.05) {
                 const innerGap = (pBaseR.x - pBaseL.x) * 0.08;
-                ctx.lineWidth = Math.max(1.2, depthRatio * 2.5);
+                ctx.strokeStyle = colorAtDepth(z, depthRatio * fz * 0.85);
+                ctx.lineWidth = Math.max(1.0, depthRatio * 2.2 * fz);
                 ctx.beginPath();
                 ctx.moveTo(pBaseL.x + innerGap, pBaseL.y);
                 ctx.lineTo(pBaseL.x + innerGap, archTopY + chamfer + innerGap * 0.5);
@@ -698,7 +775,7 @@ window.tronHighway = {
         ctx.fillStyle = zoneColAlpha(0.95);
         ctx.textAlign = 'center';
 
-        // Au milieu gauche : Pente (beaucoup plus gros, ex: ▲ +5.5%)
+        // Au milieu gauche : Pente (ex: ▲ +5.5%)
         const slopeTxt = (this.slopePercent >= 0 ? `▲ +${this.slopePercent}%` : `▼ ${this.slopePercent}%`);
         ctx.fillText(slopeTxt, W * 0.22, Math.max(28, hy - 12));
 
@@ -707,14 +784,16 @@ window.tronHighway = {
             ctx.fillText(`${this.targetWatts} W`, W * 0.78, Math.max(28, hy - 12));
         }
 
-        // Compte à rebours fin de palier au centre exact de l'horizon
+        // Compte à rebours fin de palier EN HAUT DU GRAPHISME (au-dessus de la 3D, sans sablier et plus gros)
         if (isFinDeZone) {
-            const countFontSize = Math.max(20, Math.min(30, Math.round(W * 0.045)));
-            ctx.font = `bold ${countFontSize}px monospace`;
-            ctx.fillStyle = blinkOn ? '#ffffff' : zoneColAlpha(0.85);
-            ctx.shadowColor = blinkOn ? '#ffffff' : zoneCol;
-            ctx.shadowBlur = blinkOn ? 18 : 6;
-            ctx.fillText(`⏳ ${Math.ceil(this.remainingSeconds)}s`, cx, Math.max(28, hy - 12));
+            const countFontSize = Math.max(40, Math.min(68, Math.round(W * 0.075)));
+            ctx.font = `900 ${countFontSize}px monospace`;
+            ctx.textBaseline = 'top';
+            ctx.fillStyle = '#ffffff';
+            ctx.shadowColor = horizonCol;
+            ctx.shadowBlur = 20;
+            const topY = Math.max(44, Math.round(H * 0.10));
+            ctx.fillText(`${Math.ceil(this.remainingSeconds)}s`, cx, topY);
         }
         ctx.restore();
     },

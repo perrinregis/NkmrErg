@@ -164,7 +164,7 @@
                 <!-- Décompte Palier -->
                 <div class="bg-base-100 rounded-2xl p-3 border border-base-content/10 shadow flex flex-col items-center justify-center text-center">
                     <div class="text-[10px] uppercase font-bold tracking-wider opacity-60">Palier</div>
-                    <div class="text-2xl sm:text-3xl font-black font-mono text-accent leading-tight">
+                    <div class="text-2xl sm:text-3xl font-black font-mono text-base-content leading-tight">
                         @FormatTime(state.StepRemainingSeconds)
                     </div>
                     <div class="text-[10px] opacity-70">
@@ -216,7 +216,7 @@
     <!-- 3. PIED DE PAGE : TEMPS TOTAL RESTANT -->
     <footer class="bg-base-100/90 backdrop-blur rounded-2xl p-2.5 border border-base-content/10 text-center flex items-center justify-between text-xs font-semibold shadow">
         <span class="opacity-70">Séance totale :</span>
-        <span class="font-mono text-accent font-bold">
+        <span class="font-mono text-base-content font-bold">
             @FormatTime(state.TotalRemainingSeconds) / @FormatTime(state.TotalSeconds)
         </span>
         <a href="workouts" class="btn btn-ghost btn-xs text-error">Quitter</a>

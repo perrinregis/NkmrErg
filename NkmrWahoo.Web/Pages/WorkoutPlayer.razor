@@ -54,14 +54,14 @@ else
                             </ul>
                         </div>
 
-                        <div class="text-xl sm:text-2xl font-black font-mono text-accent leading-none whitespace-nowrap">
+                        <div class="text-xl sm:text-2xl font-black font-mono text-base-content leading-none whitespace-nowrap">
                             @FormatTime(stepRemainingSeconds)
                         </div>
                     </div>
 
                     <!-- Puissance Réelle / Cible (ex: 20/90 W sur une seule ligne stricte) -->
                     <div class="bg-base-200/80 rounded-lg py-1 px-3 border border-base-content/5 flex items-baseline justify-center gap-1 whitespace-nowrap">
-                        <span class="text-xl sm:text-2xl font-black text-primary whitespace-nowrap">@currentPower</span>
+                        <span class="text-xl sm:text-2xl font-black text-blue-500 whitespace-nowrap">@currentPower</span>
                         <span class="text-xs opacity-40">/</span>
                         <span class="text-base sm:text-lg font-bold text-warning whitespace-nowrap">@currentTargetWatts&nbsp;W</span>
                     </div>
@@ -70,6 +70,11 @@ else
                     <div class="bg-base-200/80 rounded-lg py-1 px-3 border border-base-content/5 flex items-baseline justify-center gap-1 whitespace-nowrap">
                         <span class="text-xl sm:text-2xl font-black text-secondary whitespace-nowrap">@currentCadence</span>
                         <span class="text-xs font-normal opacity-70 whitespace-nowrap">RPM</span>
+                    </div>
+
+                    <!-- Temps total passé sur l'exercice (ex: 23:45 sans unité) -->
+                    <div class="bg-base-200/80 rounded-lg py-1 px-3 border border-base-content/5 flex items-baseline justify-center whitespace-nowrap" title="Temps total passé sur l'exercice">
+                        <span class="text-xl sm:text-2xl font-black font-mono text-base-content leading-none whitespace-nowrap">@FormatTime(sessionElapsedSeconds)</span>
                     </div>
 
                     <!-- Boutons Connexion / Déconnexion & Play / Pause (Icônes Pures) -->
@@ -196,12 +201,12 @@ else
                         <span class="opacity-70 text-[11px] hidden sm:inline">Paliers</span>
                     </div>
 
-                    <!-- Milieu : Temps restant / Temps total & Puissance cumulée (sans textes superflus) -->
-                    <div class="flex items-center justify-center gap-3 sm:gap-6 text-xs font-semibold whitespace-nowrap">
-                        <span class="font-mono font-black text-xs sm:text-sm text-accent whitespace-nowrap" title="Temps restant / Temps total">
+                    <!-- Milieu : Temps restant / Temps total & Puissance cumulée (plus gros et sans couleur fluo) -->
+                    <div class="flex items-center justify-center gap-4 sm:gap-8 whitespace-nowrap">
+                        <span class="font-mono font-black text-base sm:text-xl text-base-content leading-none whitespace-nowrap" title="Temps restant / Temps total">
                             @FormatTime(totalRemainingSeconds)/@FormatTime(workout.Time)
                         </span>
-                        <span class="font-black text-xs sm:text-sm text-primary whitespace-nowrap" title="Puissance cumulée">
+                        <span class="font-mono font-black text-base sm:text-xl text-warning leading-none whitespace-nowrap" title="Puissance cumulée">
                             @totalKj&nbsp;kJ
                         </span>
                     </div>
@@ -260,7 +265,7 @@ else
                     var zoneColor = step.GetZoneColor(ratio);
 
                     <div id="step-row-@idx"
-                         class="p-1.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between gap-1.5 @(isCurrent ? "bg-primary text-primary-content font-bold shadow-md border-primary ring-2 ring-primary/40 scale-[1.01]" : isPast ? "opacity-40 bg-base-200/40 border-transparent hover:opacity-80" : "bg-base-200/80 border-base-content/5 hover:border-base-content/20")"
+                         class="p-1.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between gap-1.5 @(isCurrent ? "bg-blue-700 text-white font-bold shadow-md border-blue-400 ring-2 ring-blue-500/40 scale-[1.01]" : isPast ? "opacity-40 bg-base-200/40 border-transparent hover:opacity-80" : "bg-base-200/80 border-base-content/5 hover:border-base-content/20")"
                          @onclick="() => JumpToStep(idx)">
                         <div class="flex items-center gap-1.5 truncate">
                             <span class="w-1.5 h-6 rounded-full flex-none" style="background-color: @zoneColor"></span>
@@ -389,6 +394,7 @@ else
     private int stepElapsedSeconds = 0;
     private int stepRemainingSeconds = 0;
     private int totalElapsedSeconds = 0;
+    private int sessionElapsedSeconds = 0;
     private int totalRemainingSeconds = 0;
     private long sumWattsSeconds = 0;
 
@@ -460,8 +466,14 @@ else
         if (workout == null) return;
         try
         {
-            var zoneHex = currentStep?.GetZoneColor(currentTargetRatio) ?? "#38bdf8";
-            await JSRuntime.InvokeVoidAsync("tronHighway.update", speedKmh, currentCadence, currentTargetRatio, currentPower, isRunning, zoneHex, currentTargetWatts, stepRemainingSeconds);
+            var zoneHex = currentStep?.GetZoneColor(currentTargetRatio) ?? "#2563eb";
+            double nextRatio = nextStep != null
+                ? (nextStep.IsRamp ? nextStep.StartPower : nextStep.Power) * (intensityBias / 100.0)
+                : currentTargetRatio;
+            var nextZoneHex = nextStep != null
+                ? nextStep.GetZoneColor(nextRatio)
+                : zoneHex;
+            await JSRuntime.InvokeVoidAsync("tronHighway.update", speedKmh, currentCadence, currentTargetRatio, currentPower, isRunning, zoneHex, currentTargetWatts, stepRemainingSeconds, nextRatio, nextZoneHex);
         }
         catch { }
     }
@@ -571,11 +583,12 @@ else
             stepElapsedSeconds++;
             stepRemainingSeconds--;
             totalElapsedSeconds++;
+            sessionElapsedSeconds++;
             totalRemainingSeconds = Math.Max(0, workout.Time - totalElapsedSeconds);
 
             int effectiveWatts = (currentPower > 0) ? currentPower : currentTargetWatts;
             sumWattsSeconds += effectiveWatts;
-            averageWatts = (int)(sumWattsSeconds / Math.Max(totalElapsedSeconds, 1));
+            averageWatts = (int)(sumWattsSeconds / Math.Max(sessionElapsedSeconds, 1));
             totalKj = (int)Math.Round(sumWattsSeconds / 1000.0);
 
             // Modèle vitesse vélo : v = 3.6 * (P / 0.35)^(1/3)
@@ -826,7 +839,7 @@ else
                 intensityBias = intensityBias,
                 isRunning = isRunning,
                 zoneName = currentStep?.GetZoneName(currentTargetRatio) ?? "",
-                zoneColor = currentStep?.GetZoneColor(currentTargetRatio) ?? "#38bdf8",
+                zoneColor = currentStep?.GetZoneColor(currentTargetRatio) ?? "#2563eb",
                 currentStepIndex = currentStepIndex,
                 totalSteps = workout.WorkoutStepsArray.Count,
                 workoutName = workout.Name
