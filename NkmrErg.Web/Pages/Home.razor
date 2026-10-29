@@ -2,21 +2,206 @@
 
 <PageTitle>Accueil - NkmrErg</PageTitle>
 
-<div class="hero min-h-[50vh] bg-base-200 mt-4 rounded-xl">
-  <div class="hero-content text-center">
-    <div class="max-w-md">
-      <h1 class="text-5xl font-bold">NkmrErg</h1>
-      <p class="py-6">Pilotez votre home trainer connecté via Web Bluetooth (FTMS), importez vos entraînements (.json, .zwo) et suivez vos séances en mode ERG automatique.</p>
-      <div class="flex flex-col sm:flex-row justify-center gap-3">
-          <a href="workouts" class="btn btn-primary btn-lg gap-2 shadow">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              Mes Entraînements
-          </a>
-          <a href="freeride" class="btn btn-outline btn-lg">Mode Libre</a>
-      </div>
+<div class="max-w-5xl mx-auto w-full px-2 sm:px-4 py-4 sm:py-8 space-y-12">
+
+    <!-- En-tête / Badge supérieur -->
+    <div class="text-center max-w-3xl mx-auto space-y-4">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-primary text-xs font-semibold uppercase tracking-widest shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+            Écosystème Web Bluetooth &amp; FTMS
+        </div>
+
+        <div class="flex items-center justify-center gap-3 pt-2">
+            <div class="h-12 w-12 sm:h-14 sm:w-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-xl shadow-blue-500/30 font-black text-xl sm:text-2xl tracking-tighter text-white">
+                NK
+            </div>
+            <h1 class="text-4xl sm:text-6xl font-black tracking-tight leading-tight">
+                Nkmr<span class="bg-clip-text text-transparent bg-gradient-to-r from-orange-400 via-amber-400 to-yellow-400">Erg</span>
+            </h1>
+        </div>
+
+        <p class="text-base sm:text-lg opacity-80 leading-relaxed max-w-2xl mx-auto">
+            Cockpit d'entraînement cycliste pour home trainer connecté. Importez vos séances au format JSON, roulez en mode ERG automatique et pilotez votre PC depuis votre guidon.
+        </p>
+
+        <!-- Boutons d'action rapide -->
+        <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <a href="workouts" class="btn btn-primary btn-md sm:btn-lg gap-2 shadow-lg shadow-primary/25 rounded-2xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                Mes Entraînements
+            </a>
+            <a href="freeride" class="btn btn-outline btn-md sm:btn-lg gap-2 rounded-2xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                Mode Libre (ERG)
+            </a>
+            <a href="remote" class="btn btn-ghost btn-md sm:btn-lg gap-2 rounded-2xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 sm:h-6 sm:w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+                Télécommande PC
+            </a>
+        </div>
     </div>
-  </div>
+
+    <!-- Grille des fonctionnalités (Style NkmrPortail) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
+
+        <!-- Carte 1 : Mes Entraînements -->
+        <a href="workouts"
+           class="group relative rounded-3xl bg-base-100/90 backdrop-blur-xl border border-base-300 hover:border-indigo-500/50 p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 shadow-md hover:shadow-2xl flex flex-col justify-between overflow-hidden">
+            <div class="absolute -right-12 -top-12 w-40 h-40 bg-indigo-500/10 rounded-full blur-2xl group-hover:bg-indigo-500/25 transition-all"></div>
+
+            <div>
+                <div class="flex items-center justify-between mb-5">
+                    <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/25 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                    </div>
+                    <span class="text-xs font-mono font-semibold px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-500 border border-indigo-500/20">
+                        3 séances + Import
+                    </span>
+                </div>
+
+                <h2 class="text-xl sm:text-2xl font-extrabold mb-2 group-hover:text-indigo-500 transition-colors">
+                    Mes Entraînements
+                </h2>
+                <p class="text-sm opacity-70 leading-relaxed mb-6">
+                    3 séances par défaut intégrées (Anaerobic Capacity, Capacity Pyramid, Rolling Hills) avec profil SVG dynamique, décompte par palier et import illimité de fichiers JSON ou ZWO.
+                </p>
+            </div>
+
+            <div class="flex items-center justify-between pt-4 border-t border-base-200 text-sm font-bold text-indigo-500">
+                <span>Consulter les entraînements</span>
+                <span class="transform group-hover:translate-x-1.5 transition-transform">→</span>
+            </div>
+        </a>
+
+        <!-- Carte 2 : Mode Libre (ERG) -->
+        <a href="freeride"
+           class="group relative rounded-3xl bg-base-100/90 backdrop-blur-xl border border-base-300 hover:border-orange-500/50 p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 shadow-md hover:shadow-2xl flex flex-col justify-between overflow-hidden">
+            <div class="absolute -right-12 -top-12 w-40 h-40 bg-orange-500/10 rounded-full blur-2xl group-hover:bg-orange-500/25 transition-all"></div>
+
+            <div>
+                <div class="flex items-center justify-between mb-5">
+                    <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center shadow-lg shadow-orange-500/25 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                    <span class="text-xs font-mono font-semibold px-3 py-1 rounded-full bg-orange-500/10 text-orange-500 border border-orange-500/20">
+                        Watts à la volée
+                    </span>
+                </div>
+
+                <h2 class="text-xl sm:text-2xl font-extrabold mb-2 group-hover:text-orange-500 transition-colors">
+                    Mode Libre (ERG)
+                </h2>
+                <p class="text-sm opacity-70 leading-relaxed mb-6">
+                    Ajustez librement la résistance en watts sans séance prédéfinie. Contrôle direct au watt près avec paliers rapides (+1W, +5W, +25W) et jauges de cadence et vitesse.
+                </p>
+            </div>
+
+            <div class="flex items-center justify-between pt-4 border-t border-base-200 text-sm font-bold text-orange-500">
+                <span>Lancer le mode libre</span>
+                <span class="transform group-hover:translate-x-1.5 transition-transform">→</span>
+            </div>
+        </a>
+
+        <!-- Carte 3 : Télécommande Guidon -->
+        <a href="remote"
+           class="group relative rounded-3xl bg-base-100/90 backdrop-blur-xl border border-base-300 hover:border-emerald-500/50 p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 shadow-md hover:shadow-2xl flex flex-col justify-between overflow-hidden">
+            <div class="absolute -right-12 -top-12 w-40 h-40 bg-emerald-500/10 rounded-full blur-2xl group-hover:bg-emerald-500/25 transition-all"></div>
+
+            <div>
+                <div class="flex items-center justify-between mb-5">
+                    <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center shadow-lg shadow-emerald-500/25 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                        </svg>
+                    </div>
+                    <span class="text-xs font-mono font-semibold px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20">
+                        WebRTC &bull; Zéro latence
+                    </span>
+                </div>
+
+                <h2 class="text-xl sm:text-2xl font-extrabold mb-2 group-hover:text-emerald-500 transition-colors">
+                    Télécommande PC
+                </h2>
+                <p class="text-sm opacity-70 leading-relaxed mb-6">
+                    Fixez votre smartphone sur votre cintre pour piloter l'écran de votre salon ou bureau sans fil : pause, watts +/- et changement d'intervalles par simple scan de QR Code.
+                </p>
+            </div>
+
+            <div class="flex items-center justify-between pt-4 border-t border-base-200 text-sm font-bold text-emerald-500">
+                <span>Activer la télécommande</span>
+                <span class="transform group-hover:translate-x-1.5 transition-transform">→</span>
+            </div>
+        </a>
+
+        <!-- Carte 4 : Paramètres & FTP -->
+        <a href="parametres"
+           class="group relative rounded-3xl bg-base-100/90 backdrop-blur-xl border border-base-300 hover:border-purple-500/50 p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 shadow-md hover:shadow-2xl flex flex-col justify-between overflow-hidden">
+            <div class="absolute -right-12 -top-12 w-40 h-40 bg-purple-500/10 rounded-full blur-2xl group-hover:bg-purple-500/25 transition-all"></div>
+
+            <div>
+                <div class="flex items-center justify-between mb-5">
+                    <div class="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-lg shadow-purple-500/25 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        </svg>
+                    </div>
+                    <span class="text-xs font-mono font-semibold px-3 py-1 rounded-full bg-purple-500/10 text-purple-500 border border-purple-500/20">
+                        Configuration
+                    </span>
+                </div>
+
+                <h2 class="text-xl sm:text-2xl font-extrabold mb-2 group-hover:text-purple-500 transition-colors">
+                    Paramètres &amp; FTP
+                </h2>
+                <p class="text-sm opacity-70 leading-relaxed mb-6">
+                    Réglez votre valeur de FTP pour calibrer instantanément l'ensemble des pourcentages des entraînements. Vérifiez l'état de votre Bluetooth et gérez votre stockage local.
+                </p>
+            </div>
+
+            <div class="flex items-center justify-between pt-4 border-t border-base-200 text-sm font-bold text-purple-500">
+                <span>Gérer mes réglages</span>
+                <span class="transform group-hover:translate-x-1.5 transition-transform">→</span>
+            </div>
+        </a>
+
+    </div>
+
+    <!-- Bandeau technique NoKeMaRe -->
+    <div class="rounded-3xl bg-base-100 border border-base-300 p-6 sm:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
+        <div class="flex items-center gap-4">
+            <div class="h-12 w-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-bold flex-shrink-0">
+                🚴‍♂️
+            </div>
+            <div>
+                <h3 class="font-extrabold text-lg">Prêt pour votre séance ?</h3>
+                <p class="text-xs sm:text-sm opacity-70">
+                    Compatible avec tous les home trainers Web Bluetooth (FTMS) sous Chrome, Edge et navigateurs Android/iOS compatibles.
+                </p>
+            </div>
+        </div>
+        <div class="flex items-center gap-3 flex-shrink-0">
+            <a href="https://nokemare.com" target="_blank" class="btn btn-outline btn-sm gap-2 rounded-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+                Portail NoKeMaRe
+            </a>
+            <a href="workouts" class="btn btn-primary btn-sm gap-2 rounded-xl shadow">
+                Choisir une séance
+            </a>
+        </div>
+    </div>
+
 </div>
