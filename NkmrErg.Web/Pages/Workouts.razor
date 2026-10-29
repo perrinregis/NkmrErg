@@ -41,76 +41,169 @@
             <div class="card-body items-center">
                 <div class="text-5xl mb-2">🚴‍♂️</div>
                 <h2 class="card-title text-xl">Aucun entraînement pour le moment</h2>
-                <p class="opacity-70 text-sm max-w-md">Vous pouvez importer un fichier d'entraînement au format JSON depuis votre téléphone ou charger la séance d'exemple fournie.</p>
+                <p class="opacity-70 text-sm max-w-md">Vous pouvez importer un fichier d'entraînement au format JSON ou charger les séances d'exemple fournies.</p>
                 <div class="card-actions mt-4">
-                    <button class="btn btn-primary" @onclick="LoadSampleWorkout">Charger la séance Hard Starts 2</button>
+                    <button class="btn btn-primary" @onclick="LoadSampleWorkout">Charger les 3 séances par défaut</button>
                 </div>
             </div>
         </div>
     }
     else
     {
-        <div class="grid grid-cols-1 gap-4">
-            @foreach (var workout in workouts)
-            {
-                <div class="card bg-base-100 border border-base-300 shadow-md hover:shadow-lg transition-all">
-                    <div class="card-body p-5">
-                        <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
-                            <div>
-                                <div class="flex items-center gap-2">
-                                    <h2 class="card-title text-xl font-bold">@workout.Name</h2>
-                                    @if (!string.IsNullOrEmpty(workout.AuthorName))
-                                    {
-                                        <span class="badge badge-neutral badge-sm">@workout.AuthorName</span>
-                                    }
-                                </div>
-                                <p class="text-xs opacity-70 mt-1">@workout.Description</p>
-                            </div>
+        <!-- Barre de filtres et d'affichage -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 bg-base-100 p-3 rounded-xl border border-base-300 shadow-sm">
+            <!-- Tri -->
+            <div class="flex items-center gap-2">
+                <span class="text-xs font-semibold uppercase tracking-wider opacity-60">Trier par :</span>
+                <select @bind="sortBy" class="select select-bordered select-sm">
+                    <option value="name_asc">Nom (A → Z)</option>
+                    <option value="name_desc">Nom (Z → A)</option>
+                    <option value="duration_asc">Durée (croissante)</option>
+                    <option value="duration_desc">Durée (décroissante)</option>
+                </select>
+            </div>
 
-                            <!-- Métriques rapides -->
-                            <div class="flex items-center gap-3 text-sm bg-base-200 py-1.5 px-3 rounded-lg flex-shrink-0">
-                                <div title="Durée totale">⏱️ <strong>@workout.FormattedTotalTime</strong></div>
-                                <div>•</div>
-                                <div title="Nombre d'intervalles">📊 <strong>@workout.StepCount</strong> paliers</div>
+            <!-- Mode de vue : Preview vs Noms -->
+            <div class="flex items-center gap-2">
+                <span class="text-xs font-semibold uppercase tracking-wider opacity-60">Affichage :</span>
+                <div class="join">
+                    <button class="btn btn-sm join-item @(!isCompactView ? "btn-primary" : "btn-outline")"
+                            @onclick="() => isCompactView = false"
+                            title="Affichage avec graphiques de profil">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
+                        </svg>
+                        Aperçu
+                    </button>
+                    <button class="btn btn-sm join-item @(isCompactView ? "btn-primary" : "btn-outline")"
+                            @onclick="() => isCompactView = true"
+                            title="Affichage compact avec noms seuls">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                        Noms
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        @if (isCompactView)
+        {
+            <!-- Vue compacte (Noms uniquement) -->
+            <div class="card bg-base-100 border border-base-300 shadow-md divide-y divide-base-200 overflow-hidden">
+                @foreach (var workout in SortedWorkouts)
+                {
+                    <div class="p-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 hover:bg-base-200/50 transition-colors">
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <button class="text-left font-bold text-base sm:text-lg hover:text-primary transition-colors cursor-pointer"
+                                        @onclick="() => StartWorkout(workout.Id)">
+                                    @workout.Name
+                                </button>
+                                @if (!string.IsNullOrEmpty(workout.AuthorName))
+                                {
+                                    <span class="badge badge-neutral badge-xs">@workout.AuthorName</span>
+                                }
+                            </div>
+                            <div class="flex items-center gap-3 text-xs opacity-70 mt-1 flex-wrap">
+                                <span>⏱️ <strong>@workout.FormattedTotalTime</strong></span>
+                                <span>•</span>
+                                <span>📊 <strong>@workout.StepCount</strong> paliers</span>
                                 @if (workout.TSS.HasValue && workout.TSS > 0)
                                 {
-                                    <div>•</div>
-                                    <div title="Training Stress Score">⚡ TSS <strong>@Math.Round(workout.TSS.Value, 1)</strong></div>
+                                    <span>•</span>
+                                    <span>⚡ TSS <strong>@Math.Round(workout.TSS.Value, 1)</strong></span>
                                 }
                                 @if (workout.IF.HasValue && workout.IF > 0)
                                 {
-                                    <div>•</div>
-                                    <div title="Intensity Factor">🔥 IF <strong>@Math.Round(workout.IF.Value, 2)</strong></div>
+                                    <span>•</span>
+                                    <span>🔥 IF <strong>@Math.Round(workout.IF.Value, 2)</strong></span>
                                 }
                             </div>
                         </div>
 
-                        <!-- Mini profil visuel des intervalles (avec rampes SVG) -->
-                        <div class="mt-4">
-                            <WorkoutProfileSvg Workout="@workout" HeightClass="h-12" />
-                        </div>
-
-                        <!-- Actions -->
-                        <div class="card-actions justify-between items-center mt-3 pt-2 border-t border-base-200">
-                            <button class="btn btn-ghost btn-sm text-error" @onclick="() => DeleteWorkout(workout.Id)">
+                        <div class="flex items-center gap-2 self-end sm:self-center flex-shrink-0">
+                            <button class="btn btn-ghost btn-sm text-error" title="Supprimer" @onclick="() => DeleteWorkout(workout.Id)">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
                                 </svg>
-                                Supprimer
                             </button>
-
-                            <button class="btn btn-primary btn-md gap-2" @onclick="() => StartWorkout(workout.Id)">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <button class="btn btn-primary btn-sm gap-1" @onclick="() => StartWorkout(workout.Id)">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
-                                Démarrer la séance
+                                Démarrer
                             </button>
                         </div>
                     </div>
-                </div>
-            }
-        </div>
+                }
+            </div>
+        }
+        else
+        {
+            <!-- Vue Cartes avec Preview SVG -->
+            <div class="grid grid-cols-1 gap-4">
+                @foreach (var workout in SortedWorkouts)
+                {
+                    <div class="card bg-base-100 border border-base-300 shadow-md hover:shadow-lg transition-all">
+                        <div class="card-body p-5">
+                            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <h2 class="card-title text-xl font-bold">@workout.Name</h2>
+                                        @if (!string.IsNullOrEmpty(workout.AuthorName))
+                                        {
+                                            <span class="badge badge-neutral badge-sm">@workout.AuthorName</span>
+                                        }
+                                    </div>
+                                    <p class="text-xs opacity-70 mt-1">@workout.Description</p>
+                                </div>
+
+                                <!-- Métriques rapides -->
+                                <div class="flex items-center gap-3 text-sm bg-base-200 py-1.5 px-3 rounded-lg flex-shrink-0">
+                                    <div title="Durée totale">⏱️ <strong>@workout.FormattedTotalTime</strong></div>
+                                    <div>•</div>
+                                    <div title="Nombre d'intervalles">📊 <strong>@workout.StepCount</strong> paliers</div>
+                                    @if (workout.TSS.HasValue && workout.TSS > 0)
+                                    {
+                                        <div>•</div>
+                                        <div title="Training Stress Score">⚡ TSS <strong>@Math.Round(workout.TSS.Value, 1)</strong></div>
+                                    }
+                                    @if (workout.IF.HasValue && workout.IF > 0)
+                                    {
+                                        <div>•</div>
+                                        <div title="Intensity Factor">🔥 IF <strong>@Math.Round(workout.IF.Value, 2)</strong></div>
+                                    }
+                                </div>
+                            </div>
+
+                            <!-- Mini profil visuel des intervalles (avec rampes SVG) -->
+                            <div class="mt-4">
+                                <WorkoutProfileSvg Workout="@workout" HeightClass="h-12" />
+                            </div>
+
+                            <!-- Actions -->
+                            <div class="card-actions justify-between items-center mt-3 pt-2 border-t border-base-200">
+                                <button class="btn btn-ghost btn-sm text-error" @onclick="() => DeleteWorkout(workout.Id)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                    Supprimer
+                                </button>
+
+                                <button class="btn btn-primary btn-md gap-2" @onclick="() => StartWorkout(workout.Id)">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                    Démarrer la séance
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
     }
 </div>
 
@@ -119,6 +212,24 @@
     private bool isLoading = true;
     private string statusMessage = "";
     private bool isError = false;
+
+    // Options d'affichage et de tri
+    private bool isCompactView = false;
+    private string sortBy = "name_asc";
+
+    private IEnumerable<MyWhooshWorkout> SortedWorkouts
+    {
+        get
+        {
+            return sortBy switch
+            {
+                "name_desc" => workouts.OrderByDescending(w => w.Name, StringComparer.OrdinalIgnoreCase),
+                "duration_asc" => workouts.OrderBy(w => w.Time),
+                "duration_desc" => workouts.OrderByDescending(w => w.Time),
+                _ => workouts.OrderBy(w => w.Name, StringComparer.OrdinalIgnoreCase),
+            };
+        }
+    }
 
     protected override async Task OnInitializedAsync()
     {
@@ -181,7 +292,7 @@
     {
         await WorkoutService.ResetToSampleWorkoutAsync();
         await LoadWorkouts();
-        statusMessage = "Séance d'exemple Hard Starts 2 chargée !";
+        statusMessage = "Les 3 séances par défaut ont été rechargées !";
         isError = false;
     }
 
