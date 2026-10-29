@@ -122,15 +122,15 @@ namespace NkmrErg.Web.Services
             return new MyWhooshWorkout
             {
                 Id = "2037424",
-                Name = "hard-starts-2.zwo",
-                Description = "MyWhoosh - Hard Starts 2 (Course & intensité)",
+                Name = "hard-starts-2",
+                Description = "NkmrErg - Hard Starts 2 (Course & intensité)",
                 Mode = "E_Ride",
                 Time = 1930,
                 StepCount = 30,
                 IF = 0.911,
                 TSS = 44.53,
                 KJ = 300.53,
-                AuthorName = "MyWhoosh",
+                AuthorName = "NoKeMaRe",
                 WorkoutStepsArray = new List<WorkoutStep>
                 {
                     new WorkoutStep

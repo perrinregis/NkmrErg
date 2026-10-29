@@ -5,7 +5,7 @@
 @inject IJSRuntime JSRuntime
 @inject NavigationManager Navigation
 
-<PageTitle>Séance MyWhoosh - @(workout?.Name ?? "Entraînement")</PageTitle>
+<PageTitle>Séance NkmrErg - @(workout?.Name ?? "Entraînement")</PageTitle>
 
 @if (workout == null)
 {
@@ -20,14 +20,14 @@ else
         <div class="text-6xl animate-spin mb-4" style="animation-duration: 4s;">🔄</div>
         <h2 class="text-2xl font-black mb-2">Mode Paysage Recommandé</h2>
         <p class="text-sm opacity-80 max-w-xs mb-6">
-            Pour profiter du cockpit d'entraînement MyWhoosh avec la colonne des paliers et la frise, veuillez pivoter votre téléphone à l'horizontale.
+            Pour profiter du cockpit d'entraînement avec la colonne des paliers et la frise, veuillez pivoter votre téléphone à l'horizontale.
         </p>
         <button class="btn btn-primary shadow-lg" @onclick="ForceLandscape">
             Pivoter en plein écran
         </button>
     </div>
 
-    <!-- COCKPIT PLEIN ÉCRAN MYWHOOSH (100% LARGEUR & HAUTEUR DISPONIBLE) -->
+    <!-- COCKPIT PLEIN ÉCRAN ERG (100% LARGEUR & HAUTEUR DISPONIBLE) -->
     <div class="h-screen w-screen flex flex-row overflow-hidden bg-base-300 select-none text-base-content font-sans relative">
         
         <!-- ======================================================== -->
@@ -531,7 +531,7 @@ else
             currentTargetWatts = Math.Max(newTargetWatts, 30);
             if (isBtConnected && isRunning)
             {
-                _ = JSRuntime.InvokeAsync<bool>("wahooBluetooth.setTargetPower", currentTargetWatts);
+                _ = JSRuntime.InvokeAsync<bool>("trainerBluetooth.setTargetPower", currentTargetWatts);
             }
             _ = UpdateTronHighway();
             BroadcastStateToCompanion();
@@ -570,7 +570,7 @@ else
 
         if (isBtConnected)
         {
-            _ = JSRuntime.InvokeAsync<bool>("wahooBluetooth.setTargetPower", Math.Min(currentTargetWatts, 100));
+            _ = JSRuntime.InvokeAsync<bool>("trainerBluetooth.setTargetPower", Math.Min(currentTargetWatts, 100));
         }
     }
 
@@ -671,13 +671,13 @@ else
         isMockMode = useMock;
         try
         {
-            var res = await JSRuntime.InvokeAsync<string>("wahooBluetooth.connect", dotNetHelper, useMock);
+            var res = await JSRuntime.InvokeAsync<string>("trainerBluetooth.connect", dotNetHelper, useMock);
             if (res.Contains("succès"))
             {
                 isBtConnected = true;
                 if (isRunning)
                 {
-                    await JSRuntime.InvokeAsync<bool>("wahooBluetooth.setTargetPower", currentTargetWatts);
+                    await JSRuntime.InvokeAsync<bool>("trainerBluetooth.setTargetPower", currentTargetWatts);
                 }
             }
         }
@@ -692,7 +692,7 @@ else
         isBtConnected = false;
         try
         {
-            await JSRuntime.InvokeVoidAsync("wahooBluetooth.disconnect");
+            await JSRuntime.InvokeVoidAsync("trainerBluetooth.disconnect");
         }
         catch { }
     }

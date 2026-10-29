@@ -8,7 +8,7 @@
     <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
             <h1 class="text-3xl font-extrabold tracking-tight">Mes Entraînements</h1>
-            <p class="text-sm opacity-70">Importez vos fichiers MyWhoosh ou Zwift (.json) et roulez en mode ERG.</p>
+            <p class="text-sm opacity-70">Importez vos fichiers d'entraînement (.json, .zwo) et roulez en mode ERG.</p>
         </div>
 
         <div class="flex items-center gap-2">
@@ -41,7 +41,7 @@
             <div class="card-body items-center">
                 <div class="text-5xl mb-2">🚴‍♂️</div>
                 <h2 class="card-title text-xl">Aucun entraînement pour le moment</h2>
-                <p class="opacity-70 text-sm max-w-md">Vous pouvez importer un fichier d'entraînement MyWhoosh au format JSON depuis votre téléphone ou charger la séance d'exemple fournie.</p>
+                <p class="opacity-70 text-sm max-w-md">Vous pouvez importer un fichier d'entraînement au format JSON depuis votre téléphone ou charger la séance d'exemple fournie.</p>
                 <div class="card-actions mt-4">
                     <button class="btn btn-primary" @onclick="LoadSampleWorkout">Charger la séance Hard Starts 2</button>
                 </div>
@@ -166,7 +166,7 @@
             }
             else
             {
-                statusMessage = "Erreur : Le fichier sélectionné ne semble pas être un JSON MyWhoosh valide.";
+                statusMessage = "Erreur : Le fichier sélectionné ne semble pas être un format d'entraînement valide.";
                 isError = true;
             }
         }

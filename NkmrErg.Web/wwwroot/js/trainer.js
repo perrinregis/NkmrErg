@@ -1,4 +1,4 @@
-window.wahooBluetooth = {
+window.trainerBluetooth = window.wahooBluetooth = {
     device: null,
     server: null,
     powerCharacteristic: null,

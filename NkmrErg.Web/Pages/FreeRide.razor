@@ -1,17 +1,18 @@
+@page "/freeride"
 @page "/wahoo"
 @implements IDisposable
 @inject IJSRuntime JSRuntime
 @using Microsoft.JSInterop
 
-<PageTitle>Wahoo Kickr POC</PageTitle>
+<PageTitle>Mode Libre - NkmrErg</PageTitle>
 
 <div class="container mx-auto p-4 pb-24">
-    <h1 class="text-3xl font-bold mb-4">Wahoo Kickr Bluetooth POC</h1>
+    <h1 class="text-3xl font-bold mb-4">Contrôle Home Trainer Bluetooth (Mode Libre)</h1>
 
-    <p class="mb-4">Cette page permet de valider la connexion Web Bluetooth à un home trainer (ex: Wahoo Kickr) et de lire la puissance.</p>
+    <p class="mb-4">Cette page permet de vous connecter directement à votre home trainer (norme Bluetooth FTMS / Cycling Power) et de piloter manuellement la résistance en mode ERG.</p>
 
     <div class="flex gap-4 mb-4">
-        <button class="btn btn-primary" @onclick="() => ConnectToDevice(false)" disabled="@isConnected">Connecter au Wahoo</button>
+        <button class="btn btn-primary" @onclick="() => ConnectToDevice(false)" disabled="@isConnected">Connecter au Home Trainer</button>
         <button class="btn btn-outline btn-primary" @onclick="() => ConnectToDevice(true)" disabled="@isConnected">Tester (Mock)</button>
         <button class="btn btn-secondary" @onclick="DisconnectDevice" disabled="@(!isConnected)">Déconnecter</button>
     </div>
@@ -56,7 +57,7 @@
     private int currentCadence = 0;
     private int targetPower = 150;
     private string statusMessage = "Non connecté. Assurez-vous que le Bluetooth est activé sur votre appareil.";
-    private DotNetObjectReference<Wahoo>? dotNetHelper;
+    private DotNetObjectReference<FreeRide>? dotNetHelper;
 
     protected override void OnInitialized()
     {
@@ -68,7 +69,7 @@
         statusMessage = useMock ? "Lancement du mode mock..." : "Demande d'appairage Bluetooth en cours...";
         try
         {
-            var result = await JSRuntime.InvokeAsync<string>("wahooBluetooth.connect", dotNetHelper, useMock);
+            var result = await JSRuntime.InvokeAsync<string>("trainerBluetooth.connect", dotNetHelper, useMock);
             if (result.Contains("succès"))
             {
                 isConnected = true;
@@ -85,7 +86,7 @@
     {
         try
         {
-            await JSRuntime.InvokeVoidAsync("wahooBluetooth.disconnect");
+            await JSRuntime.InvokeVoidAsync("trainerBluetooth.disconnect");
             isConnected = false;
             currentPower = 0;
             currentCadence = 0;
@@ -112,7 +113,7 @@
         try
         {
             statusMessage = $"Envoi de la cible ERG : {targetPower}W...";
-            var success = await JSRuntime.InvokeAsync<bool>("wahooBluetooth.setTargetPower", targetPower);
+            var success = await JSRuntime.InvokeAsync<bool>("trainerBluetooth.setTargetPower", targetPower);
             if (success)
             {
                 statusMessage = $"Cible ERG réglée sur {targetPower}W.";

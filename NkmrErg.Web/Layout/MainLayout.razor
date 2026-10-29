@@ -32,17 +32,17 @@
                 </svg>
                 <span class="btm-nav-label text-xs">Accueil</span>
             </NavLink>
-            <NavLink href="wahoo" class="text-primary" ActiveClass="active bg-primary/10">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-                <span class="btm-nav-label text-xs">Wahoo</span>
-            </NavLink>
             <NavLink href="workouts" class="text-primary" ActiveClass="active bg-primary/10">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                 </svg>
                 <span class="btm-nav-label text-xs">Workouts</span>
+            </NavLink>
+            <NavLink href="freeride" class="text-primary" ActiveClass="active bg-primary/10">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+                <span class="btm-nav-label text-xs">Mode Libre</span>
             </NavLink>
             <NavLink href="remote" class="text-primary" ActiveClass="active bg-primary/10">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -68,8 +68,8 @@
             <li class="mb-4 text-xl font-bold tracking-widest text-primary p-2">NkmrErg</li>
             <li><NavLink href="" Match="NavLinkMatch.All" @onclick="CloseDrawer">Accueil</NavLink></li>
             <li><NavLink href="workouts" @onclick="CloseDrawer">Mes Entraînements</NavLink></li>
+            <li><NavLink href="freeride" @onclick="CloseDrawer">Mode Libre (ERG)</NavLink></li>
             <li><NavLink href="remote" @onclick="CloseDrawer">📱 Télécommande PC</NavLink></li>
-            <li><NavLink href="wahoo" @onclick="CloseDrawer">Wahoo Kickr POC</NavLink></li>
             <li><NavLink href="parametres" @onclick="CloseDrawer">Paramètres</NavLink></li>
         </ul>
     </div>
