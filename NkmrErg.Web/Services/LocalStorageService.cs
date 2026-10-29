@@ -2,7 +2,7 @@ using Microsoft.JSInterop;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace NkmrWahoo.Web.Services
+namespace NkmrErg.Web.Services
 {
     public interface ILocalStorageService
     {

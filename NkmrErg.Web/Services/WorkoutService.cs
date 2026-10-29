@@ -1,7 +1,7 @@
 using System.Text.Json;
-using NkmrWahoo.Web.Models;
+using NkmrErg.Web.Models;
 
-namespace NkmrWahoo.Web.Services
+namespace NkmrErg.Web.Services
 {
     public interface IWorkoutService
     {

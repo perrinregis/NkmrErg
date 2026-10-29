@@ -1,0 +1,549 @@
+{
+  "Id": "4311126",
+  "Name": "capacity-pyramid",
+  "Description": "nokemare - capacity-pyramid",
+  "Mode": "E_Ride",
+  "ERGMode": "E_OFF",
+  "IsRecovery": false,
+  "IsIntervals": false,
+  "FTPMode": "E_NoFTP",
+  "IsTT": false,
+  "IsTSS": false,
+  "IsIF": false,
+  "FTPMultiplier": 1,
+  "StressPoint": 0,
+  "Time": 1300,
+  "CustomTagDescription": "2",
+  "CategoryId": 200000000,
+  "SubcategoryId": 1,
+  "Type": "E_Normal",
+  "DisplayType": "E_byWatts",
+  "StepCount": 27,
+  "IsFavorite": false,
+  "CompletedCount": 0,
+  "WorkoutSteps": [],
+  "AuthorName": "nokemare",
+  "WokoutAssociationId": 0,
+  "IF": 0.981,
+  "TSS": 34.73,
+  "KJ": 231.75,
+  "WorkoutStepsArray": [
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 1,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "Welcome to this new workout"
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "We're starting with a gradual warm up, progressing through the zones."
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0.55,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 60,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 2,
+      "WorkoutMessage": [],
+      "Rpm": 85,
+      "Power": 0.7,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 75,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 3,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "We're upping the power a little here but it should still be comfortable."
+        }
+      ],
+      "Rpm": 70,
+      "Power": 0.85,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 90,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 4,
+      "WorkoutMessage": [],
+      "Rpm": 0,
+      "Power": 0.55,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 80,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 5,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "Low Cadence for this block."
+        }
+      ],
+      "Rpm": 0,
+      "Power": 1.15,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 60,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 6,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "70 rpm for this part"
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "Simulate the climbs"
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0.75,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 90,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 7,
+      "WorkoutMessage": [],
+      "Rpm": 0,
+      "Power": 1.15,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 80,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 8,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "Ok, good start, warm up done."
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0.87,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 90,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 9,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "Next we're going to start working our way up the pyramid of intervals."
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0.5,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 45,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 10,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "Keep this first effort controlled, there are plenty more to come!"
+        }
+      ],
+      "Rpm": 0,
+      "Power": 1.23,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 80,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 11,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "Starting short"
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "Drop the power but keep the pressure on the pedals."
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0.98,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 70,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 12,
+      "WorkoutMessage": [],
+      "Rpm": 0,
+      "Power": 0.5,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 45,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 13,
+      "WorkoutMessage": [],
+      "Rpm": 0,
+      "Power": 1.28,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 45,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 14,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "Start smooth"
+        }
+      ],
+      "Rpm": 0,
+      "Power": 1.07,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 55,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 15,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "Steady climbing effort"
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "Grab some good recovery here"
+        },
+        {
+          "Id": 3,
+          "Time": 0,
+          "Message": "You may find you need it later in the session."
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0.5,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 95,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 16,
+      "WorkoutMessage": [],
+      "Rpm": 0,
+      "Power": 1.5,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 20,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 17,
+      "WorkoutMessage": [],
+      "Rpm": 0,
+      "Power": 0.75,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 20,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 18,
+      "WorkoutMessage": [],
+      "Rpm": 0,
+      "Power": 1.5,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 20,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 19,
+      "WorkoutMessage": [],
+      "Rpm": 0,
+      "Power": 0.75,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 20,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 20,
+      "WorkoutMessage": [],
+      "Rpm": 0,
+      "Power": 1.5,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 20,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 21,
+      "WorkoutMessage": [],
+      "Rpm": 0,
+      "Power": 0.75,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 20,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 22,
+      "WorkoutMessage": [],
+      "Rpm": 0,
+      "Power": 1.5,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 20,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 23,
+      "WorkoutMessage": [],
+      "Rpm": 0,
+      "Power": 0.75,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 20,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 24,
+      "WorkoutMessage": [],
+      "Rpm": 0,
+      "Power": 1.5,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 20,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 25,
+      "WorkoutMessage": [],
+      "Rpm": 0,
+      "Power": 0.75,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 20,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 26,
+      "WorkoutMessage": [],
+      "Rpm": 0,
+      "Power": 1.5,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 20,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 27,
+      "WorkoutMessage": [],
+      "Rpm": 0,
+      "Power": 0.75,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 20,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    }
+  ]
+}

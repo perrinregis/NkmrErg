@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace NkmrWahoo.Web.Models
+namespace NkmrErg.Web.Models
 {
     public class MyWhooshWorkout
     {

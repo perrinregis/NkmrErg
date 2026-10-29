@@ -1,0 +1,784 @@
+{
+  "Id": "192",
+  "Name": "anaerobic-capacity",
+  "Description": "nokemare - Anaerobic Capacity",
+  "Mode": "E_Ride",
+  "ERGMode": "E_OFF",
+  "IsRecovery": false,
+  "IsIntervals": false,
+  "FTPMode": "E_NoFTP",
+  "IsTT": false,
+  "IsTSS": false,
+  "IsIF": false,
+  "FTPMultiplier": 1,
+  "StressPoint": 0,
+  "Time": 1800,
+  "CustomTagDescription": "2",
+  "CategoryId": 200000000,
+  "SubcategoryId": 1,
+  "Type": "E_Normal",
+  "DisplayType": "E_byWatts",
+  "StepCount": 16,
+  "IsFavorite": false,
+  "CompletedCount": 0,
+  "WorkoutSteps": [],
+  "AuthorName": "nokemare",
+  "WokoutAssociationId": 0,
+  "IF": 0.777,
+  "TSS": 30.19,
+  "KJ": 241.39500044703485,
+  "WorkoutStepsArray": [
+    {
+      "IntervalId": 0,
+      "StepType": "E_WarmUp",
+      "Id": 1,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "Welcome to the Whoosh, 2min Capacity workout."
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "This is going to be a big session which culminates in you producing 2 quality efforts of 2min in duration."
+        },
+        {
+          "Id": 3,
+          "Time": 0,
+          "Message": "But before we get to the hard work, we are going to need a good warmup first."
+        },
+        {
+          "Id": 4,
+          "Time": 0,
+          "Message": "We are going to ease into the warmup here and gradually increase the power over the opening 3.5 minutes."
+        },
+        {
+          "Id": 5,
+          "Time": 0,
+          "Message": "The focus of today's workout is anaerobic capacity. This is when you go well above threshold for a short period of time."
+        },
+        {
+          "Id": 6,
+          "Time": 0,
+          "Message": "But we aren't sprinting today. We are going to produce this big power over a 2min interval."
+        },
+        {
+          "Id": 7,
+          "Time": 0,
+          "Message": "How are those legs feeling now? Working up a sweat yet?"
+        },
+        {
+          "Id": 8,
+          "Time": 0,
+          "Message": "The first part of the workout will see you performing a couple of steady state, low intensity efforts."
+        },
+        {
+          "Id": 9,
+          "Time": 0,
+          "Message": "Then we will briefly touch on the different intensities above threshold."
+        },
+        {
+          "Id": 10,
+          "Time": 0,
+          "Message": "But don't worry. We give you plenty of recovery between these efforts."
+        },
+        {
+          "Id": 11,
+          "Time": 0,
+          "Message": "That completes the first part of the warmup."
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0,
+      "Pace": 0,
+      "StartPower": 0.4544999897480011,
+      "EndPower": 0.7045000195503235,
+      "Time": 210,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 2,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "A quick rest here before we start the lower intensity steady state work."
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "Make sure you are drinking throughout the workout. It's important to stay hydrated."
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0.55,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 30,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 3,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "The intensity should be pretty comfortable for you here."
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "Really focus on spinning the legs here. Fast legs make the effort more aerobic."
+        },
+        {
+          "Id": 3,
+          "Time": 0,
+          "Message": "After completing the warmup, we are going to ramp up the intensity in small steps."
+        },
+        {
+          "Id": 4,
+          "Time": 0,
+          "Message": "The end goal here is to produce 2min of top end work."
+        },
+        {
+          "Id": 5,
+          "Time": 0,
+          "Message": "But to get there, we are going to give you a taste of each level of intensity with plenty of recovery."
+        },
+        {
+          "Id": 6,
+          "Time": 0,
+          "Message": "And then finally, we put it all together to produce 2min of big power!"
+        },
+        {
+          "Id": 7,
+          "Time": 0,
+          "Message": "Each interval from here on in will get a little harder."
+        },
+        {
+          "Id": 8,
+          "Time": 0,
+          "Message": "But you've got this! It's all within your abilities."
+        },
+        {
+          "Id": 9,
+          "Time": 0,
+          "Message": "That completes the first part of the warmup. Now for an easy spin."
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0.65,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 180,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 4,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "Just a short rest here."
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "Grab a drink before we step up the intensity a little."
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0.5,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 30,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 5,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "This time we are going to complete 2min at a tempo intensity."
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "Again, this should be a pretty comfortable effort for you."
+        },
+        {
+          "Id": 3,
+          "Time": 0,
+          "Message": "Concentrate on spinning the gear a little higher than what is comfortable for you."
+        },
+        {
+          "Id": 4,
+          "Time": 0,
+          "Message": "The duration of this interval is the same as you will complete for our main set."
+        },
+        {
+          "Id": 5,
+          "Time": 0,
+          "Message": "Obviously we are going to be going much harder in the anaerobic capacity efforts..."
+        },
+        {
+          "Id": 6,
+          "Time": 0,
+          "Message": "...but start preparing yourself for the duration of the main interval."
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0.81,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 120,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 6,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "Nice work so far."
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "As the intensity increases, so does the length of our recovery intervals."
+        },
+        {
+          "Id": 3,
+          "Time": 0,
+          "Message": "Next, we are going to step up the effort to just under your threshold power. But only for 1min."
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0.5,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 60,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 7,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "A little harder now. But still comfortable for you."
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "Try to stay in the seat for these efforts and really drive the power from your glutes."
+        },
+        {
+          "Id": 3,
+          "Time": 0,
+          "Message": "To give you an idea of what's ahead, keep in mind that our main set intervals will be 2min long and above this intensity!"
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0.9,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 60,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 8,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "Great work! This is a big session today."
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "Grab another drink. Everything from here on in is above threshold!"
+        },
+        {
+          "Id": 3,
+          "Time": 0,
+          "Message": "This time we are going just above threshold for the minute."
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0.5,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 60,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 9,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "Hit that target power and really drive the pedals."
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "You're going to notice that your breathing rate suddenly increases in these short efforts."
+        },
+        {
+          "Id": 3,
+          "Time": 0,
+          "Message": "That's a positive. This is where we get the training effect."
+        }
+      ],
+      "Rpm": 0,
+      "Power": 1.09,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 60,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 10,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "And rest again. Nice and easy here."
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "We have a longer recovery period this time."
+        },
+        {
+          "Id": 3,
+          "Time": 0,
+          "Message": "How are the legs feeling? Quite often it's after the 3rd or 4th effort that the legs start to come good."
+        },
+        {
+          "Id": 4,
+          "Time": 0,
+          "Message": "We are getting closer to the main set of work now."
+        },
+        {
+          "Id": 5,
+          "Time": 0,
+          "Message": "Just 1 more warmup interval, then we prepare for the big ones!"
+        },
+        {
+          "Id": 6,
+          "Time": 0,
+          "Message": "This time we are going a little harder again, but just for 30sec."
+        },
+        {
+          "Id": 7,
+          "Time": 0,
+          "Message": "It's ok to get out of the seat for this on if you prefer."
+        },
+        {
+          "Id": 8,
+          "Time": 0,
+          "Message": "Here we go!"
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0.5,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 120,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 11,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "Hit that target power and stay on top of the gear all the way through."
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "There's the line... Just 10sec to go!"
+        }
+      ],
+      "Rpm": 0,
+      "Power": 1.25,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 30,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 12,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "Nice work. That was a good effort."
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "Now we can really spin the legs out and have a good recovery"
+        },
+        {
+          "Id": 3,
+          "Time": 0,
+          "Message": "So far in this workout you have experienced the various levels of intensity above threshold that we are going to produce in the main set."
+        },
+        {
+          "Id": 4,
+          "Time": 0,
+          "Message": "But this time we are going to combine them all into the 1 effort."
+        },
+        {
+          "Id": 5,
+          "Time": 0,
+          "Message": "The target power in these intervals will gradually ramp up over the 2min."
+        },
+        {
+          "Id": 6,
+          "Time": 0,
+          "Message": "Starting at 88% of threshold and finishing at 130%."
+        },
+        {
+          "Id": 7,
+          "Time": 0,
+          "Message": "It's going to require a big effort, but you've got this."
+        },
+        {
+          "Id": 8,
+          "Time": 0,
+          "Message": "Start getting yourself ready for the work ahead. We start in 20sec."
+        },
+        {
+          "Id": 9,
+          "Time": 0,
+          "Message": "OK... Here we go!"
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0.5,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 180,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_WarmUp",
+      "Id": 13,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "That's a great start. Settle into a nice rhythm here."
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "Keep your breathing under control and try to stay relaxed."
+        },
+        {
+          "Id": 3,
+          "Time": 0,
+          "Message": "Really drive the power from the glutes. Nice and strong here."
+        },
+        {
+          "Id": 4,
+          "Time": 0,
+          "Message": "We are getting into the serious part now. The target power is well above threshold now."
+        },
+        {
+          "Id": 5,
+          "Time": 0,
+          "Message": "Just 30sec to go!"
+        },
+        {
+          "Id": 6,
+          "Time": 0,
+          "Message": "Out of the seat if you need to here. There's the line!"
+        },
+        {
+          "Id": 7,
+          "Time": 0,
+          "Message": "And you're done. Great work!"
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0,
+      "Pace": 0,
+      "StartPower": 0.8845000267028809,
+      "EndPower": 1.3044999837875366,
+      "Time": 120,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 14,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "That was fantastic. Catch your breath and grab a drink."
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "We have plenty of recovery time now."
+        },
+        {
+          "Id": 3,
+          "Time": 0,
+          "Message": "Relax as much as you can here. Generally our cadence is a little lower during recovery after an intense interval."
+        },
+        {
+          "Id": 4,
+          "Time": 0,
+          "Message": "In a moment we are going to repeat that interval."
+        },
+        {
+          "Id": 5,
+          "Time": 0,
+          "Message": "Think about how the previous interval felt. Were you comfortable up to a certain point? Did it suddenly get harder?"
+        },
+        {
+          "Id": 6,
+          "Time": 0,
+          "Message": "In this next interval focus on your cadence."
+        },
+        {
+          "Id": 7,
+          "Time": 0,
+          "Message": "Are you keeping on top of the gear by maintaining the same cadence all the way through to the end."
+        },
+        {
+          "Id": 8,
+          "Time": 0,
+          "Message": "Start getting ready for the next effort. We go in 30sec!"
+        },
+        {
+          "Id": 9,
+          "Time": 0,
+          "Message": "Ok here we go. Let's finish off a great workout with a strong effort!"
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0.5,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 180,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_WarmUp",
+      "Id": 15,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "Settle into your rhythm here. Perfect start."
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "Control your breathing and try to stay relaxed."
+        },
+        {
+          "Id": 3,
+          "Time": 0,
+          "Message": "Maintain your starting cadence all the way to the end. Stay on top of that gear."
+        },
+        {
+          "Id": 4,
+          "Time": 0,
+          "Message": "You're well above threshold now. This is big power you're producing!"
+        },
+        {
+          "Id": 5,
+          "Time": 0,
+          "Message": "Just 30sec to go! C'mon."
+        },
+        {
+          "Id": 6,
+          "Time": 0,
+          "Message": "Out of the seat if you need to here. There's the line!"
+        },
+        {
+          "Id": 7,
+          "Time": 0,
+          "Message": "And you're done. Great work!"
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0,
+      "Pace": 0,
+      "StartPower": 0.8845000267028809,
+      "EndPower": 1.3044999837875366,
+      "Time": 120,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    },
+    {
+      "IntervalId": 0,
+      "StepType": "E_Normal",
+      "Id": 16,
+      "WorkoutMessage": [
+        {
+          "Id": 1,
+          "Time": 0,
+          "Message": "That was a big effort from you. Well done."
+        },
+        {
+          "Id": 2,
+          "Time": 0,
+          "Message": "We are going to take our time here and really spin the legs out to help with recovery."
+        },
+        {
+          "Id": 3,
+          "Time": 0,
+          "Message": "You have just completed a very difficult session."
+        },
+        {
+          "Id": 4,
+          "Time": 0,
+          "Message": "Being able to produce big power across the duration of 1 to 4min is very challenging."
+        },
+        {
+          "Id": 5,
+          "Time": 0,
+          "Message": "It's that maximal effort that isn't quite a sprint, but it's not a long Time Trial either."
+        },
+        {
+          "Id": 6,
+          "Time": 0,
+          "Message": "This type of training would generally only be completed once a week."
+        },
+        {
+          "Id": 7,
+          "Time": 0,
+          "Message": "We generally need 2 or 3 days of recovery after high intensity workouts like this."
+        },
+        {
+          "Id": 8,
+          "Time": 0,
+          "Message": "As you cool down be sure to keep drinking. It's amazing how much fluid we can lose through sweat in a 30min indoor workout."
+        },
+        {
+          "Id": 9,
+          "Time": 0,
+          "Message": "Unlike the warmup, our cadence is generally a little lower during the cool down."
+        },
+        {
+          "Id": 10,
+          "Time": 0,
+          "Message": "The goal of the cool down is to allow your heart rate and breathing to return to normal resting levels."
+        },
+        {
+          "Id": 11,
+          "Time": 0,
+          "Message": "I hope you've enjoyed today's Whoosh workout. It certainly got the heart rate going."
+        },
+        {
+          "Id": 12,
+          "Time": 0,
+          "Message": "Enjoy the rest of your cool down. Relax a little in these final moments, and we hope to see you back for more workouts on Whoosh."
+        }
+      ],
+      "Rpm": 0,
+      "Power": 0.5,
+      "Pace": 0,
+      "StartPower": 0,
+      "EndPower": 0,
+      "Time": 240,
+      "IsManualGrade": false,
+      "ManualGradeValue": 0,
+      "ShowAveragePower": true,
+      "FlatRoad": 0
+    }
+  ]
+}
