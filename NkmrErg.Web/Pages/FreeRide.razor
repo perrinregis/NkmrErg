@@ -11,10 +11,14 @@
 
     <p class="mb-4">Cette page permet de vous connecter directement à votre home trainer (norme Bluetooth FTMS / Cycling Power) et de piloter manuellement la résistance en mode ERG.</p>
 
-    <div class="flex gap-4 mb-4">
-        <button class="btn btn-primary" @onclick="() => ConnectToDevice(false)" disabled="@isConnected">Connecter au Home Trainer</button>
-        <button class="btn btn-outline btn-primary" @onclick="() => ConnectToDevice(true)" disabled="@isConnected">Tester (Mock)</button>
-        <button class="btn btn-secondary" @onclick="DisconnectDevice" disabled="@(!isConnected)">Déconnecter</button>
+    <div class="flex flex-col gap-2.5 mb-4 max-w-md">
+        <!-- Ligne 1 : Connecter et Déconnecter côte à côte -->
+        <div class="grid grid-cols-2 gap-2 sm:gap-3">
+            <button class="btn btn-primary w-full" @onclick="() => ConnectToDevice(false)" disabled="@isConnected">Connecter</button>
+            <button class="btn btn-secondary w-full" @onclick="DisconnectDevice" disabled="@(!isConnected)">Déconnecter</button>
+        </div>
+        <!-- Ligne 2 : Tester (Mock) en dessous -->
+        <button class="btn btn-outline btn-primary w-full" @onclick="() => ConnectToDevice(true)" disabled="@isConnected">Tester (Mock)</button>
     </div>
 
     @if (isConnected)

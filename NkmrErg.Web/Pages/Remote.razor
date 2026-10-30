@@ -176,9 +176,13 @@
             <!-- RÉGLAGE GÉANT DE L'INTENSITÉ / FTP BIAS -->
             <div class="bg-base-100 rounded-2xl p-3 border border-base-content/10 shadow flex flex-col gap-3">
                 <div class="flex items-center justify-between px-1">
-                    <div class="text-3xl sm:text-4xl font-black font-mono text-primary leading-none">
-                        @state.IntensityBias% <span class="text-xl sm:text-2xl font-bold text-warning font-sans">(@state.TargetWatts W)</span>
+                    <!-- Au-dessus du -1% : pourcentage en gros, et les watts en dessous -->
+                    <div class="flex flex-col items-start leading-tight">
+                        <span class="text-3xl sm:text-4xl font-black font-mono text-primary">@state.IntensityBias%</span>
+                        <span class="text-lg sm:text-xl font-bold text-warning font-mono">(@state.TargetWatts W)</span>
                     </div>
+
+                    <!-- Au-dessus du +1% : bouton revenir au défaut (100%) -->
                     <button class="btn @(state.IntensityBias != 100 ? "btn-warning btn-md" : "btn-ghost btn-md opacity-40") font-bold rounded-2xl shadow active:scale-95 transition-transform"
                             @onclick="ResetIntensity"
                             disabled="@(state.IntensityBias == 100)"
@@ -220,13 +224,17 @@
         </main>
     }
 
-    <!-- 3. PIED DE PAGE : TEMPS TOTAL RESTANT -->
-    <footer class="bg-base-100/90 backdrop-blur rounded-2xl p-2.5 border border-base-content/10 text-center flex items-center justify-between text-xs font-semibold shadow">
-        <span class="opacity-70">Séance totale :</span>
-        <span class="font-mono text-base-content font-bold">
+    <!-- 3. PIED DE PAGE : TEMPS TOTAL EN GROS CENTRÉ ET BOUTON QUITTER (MÊME TAILLE QUE LES AUTRES) -->
+    <footer class="bg-base-100/90 backdrop-blur rounded-2xl p-3 border border-base-content/10 shadow flex flex-col items-center gap-2.5">
+        <div class="text-2xl sm:text-3xl font-black font-mono text-base-content text-center tracking-wider">
             @FormatTime(state.TotalRemainingSeconds) / @FormatTime(state.TotalSeconds)
-        </span>
-        <a href="workouts" class="btn btn-ghost btn-xs text-error">Quitter</a>
+        </div>
+        <a href="workouts" class="btn btn-error btn-outline btn-lg h-14 w-full font-bold text-lg rounded-2xl shadow active:scale-95 flex items-center justify-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+            </svg>
+            Quitter la séance
+        </a>
     </footer>
 </div>
 

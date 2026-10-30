@@ -33,14 +33,14 @@ else
         <!-- ======================================================== -->
         <!-- PARTIE GAUCHE / CENTRALE : HUD HAUT + SCÈNE + FRISE BAS  -->
         <!-- ======================================================== -->
-        <main class="flex-1 flex flex-col h-full overflow-hidden relative">
+        <main class="flex-1 min-w-0 flex flex-col h-full overflow-hidden relative">
             
             <!-- 1. HUD DU HAUT ULTRA-COMPACT (1 SEULE LIGNE GÉANTE & SANS TEXTES INUTILES) -->
-            <header class="flex-none bg-base-100/95 backdrop-blur border-b border-base-content/10 px-2 sm:px-3 py-1.5 shadow-md z-30">
-                <div class="flex items-center justify-between gap-1.5 sm:gap-3">
+            <header class="flex-none bg-base-100/95 backdrop-blur border-b border-base-content/10 px-1 sm:px-3 py-1 sm:py-1.5 shadow-md z-30 min-w-0">
+                <div class="flex items-center justify-between gap-1 sm:gap-2 w-full min-w-0">
                     
                     <!-- Burger compact + Chrono Palier (sans texte "Palier") -->
-                    <div class="flex items-center gap-1.5 bg-base-200/80 rounded-lg py-1 px-2 border border-base-content/5 flex-none whitespace-nowrap">
+                    <div class="flex items-center gap-1 sm:gap-1.5 bg-base-200/80 rounded-lg py-1 px-1.5 sm:px-2 border border-base-content/5 flex-none whitespace-nowrap">
                         <div class="dropdown dropdown-bottom">
                             <label tabindex="0" class="btn btn-ghost btn-circle btn-xs text-primary" title="Menu rapide">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -54,31 +54,31 @@ else
                             </ul>
                         </div>
 
-                        <div class="text-xl sm:text-2xl font-black font-mono text-base-content leading-none whitespace-nowrap">
+                        <div class="text-lg sm:text-2xl font-black font-mono text-base-content leading-none whitespace-nowrap">
                             @FormatTime(stepRemainingSeconds)
                         </div>
                     </div>
 
                     <!-- Puissance Réelle / Cible (ex: 20/90 W sur une seule ligne stricte) -->
-                    <div class="bg-base-200/80 rounded-lg py-1 px-3 border border-base-content/5 flex items-baseline justify-center gap-1 whitespace-nowrap">
-                        <span class="text-xl sm:text-2xl font-black text-blue-500 whitespace-nowrap">@currentPower</span>
+                    <div class="bg-base-200/80 rounded-lg py-1 px-1.5 sm:px-3 border border-base-content/5 flex items-baseline justify-center gap-0.5 sm:gap-1 whitespace-nowrap">
+                        <span class="text-lg sm:text-2xl font-black text-blue-500 whitespace-nowrap">@currentPower</span>
                         <span class="text-xs opacity-40">/</span>
-                        <span class="text-base sm:text-lg font-bold text-warning whitespace-nowrap">@currentTargetWatts&nbsp;W</span>
+                        <span class="text-sm sm:text-lg font-bold text-warning whitespace-nowrap">@currentTargetWatts&nbsp;W</span>
                     </div>
 
                     <!-- Cadence (ex: 88 RPM sur une seule ligne) -->
-                    <div class="bg-base-200/80 rounded-lg py-1 px-3 border border-base-content/5 flex items-baseline justify-center gap-1 whitespace-nowrap">
-                        <span class="text-xl sm:text-2xl font-black text-secondary whitespace-nowrap">@currentCadence</span>
-                        <span class="text-xs font-normal opacity-70 whitespace-nowrap">RPM</span>
+                    <div class="bg-base-200/80 rounded-lg py-1 px-1.5 sm:px-3 border border-base-content/5 flex items-baseline justify-center gap-0.5 sm:gap-1 whitespace-nowrap">
+                        <span class="text-lg sm:text-2xl font-black text-secondary whitespace-nowrap">@currentCadence</span>
+                        <span class="text-[10px] sm:text-xs font-normal opacity-70 whitespace-nowrap">RPM</span>
                     </div>
 
-                    <!-- Temps total passé sur l'exercice (ex: 23:45 sans unité) -->
-                    <div class="bg-base-200/80 rounded-lg py-1 px-3 border border-base-content/5 flex items-baseline justify-center whitespace-nowrap" title="Temps total passé sur l'exercice">
+                    <!-- Temps total passé sur l'exercice (affiché à partir de md car déjà présent dans la frise basse) -->
+                    <div class="hidden md:flex bg-base-200/80 rounded-lg py-1 px-3 border border-base-content/5 items-baseline justify-center whitespace-nowrap" title="Temps total passé sur l'exercice">
                         <span class="text-xl sm:text-2xl font-black font-mono text-base-content leading-none whitespace-nowrap">@FormatTime(sessionElapsedSeconds)</span>
                     </div>
 
-                    <!-- Boutons Connexion / Déconnexion & Play / Pause (Icônes Pures) -->
-                    <div class="flex items-center gap-1 sm:gap-1.5 flex-none ml-auto">
+                    <!-- Boutons Connexion / Déconnexion & Play / Pause (Ne rétrécissent jamais) -->
+                    <div class="flex items-center gap-1 sm:gap-1.5 flex-none shrink-0 ml-auto z-40">
                         @if (isBtConnected)
                         {
                             <button class="btn btn-ghost btn-circle btn-xs text-success hover:bg-success/20 relative" @onclick="DisconnectBluetooth" title="@(isMockMode ? "Mock Connecté (cliquer pour déconnecter)" : "Bluetooth Connecté (cliquer pour déconnecter)")">
@@ -257,11 +257,11 @@ else
         <!-- ======================================================== -->
         <!-- PARTIE DROITE : ASCENSEUR DES PALIERS (PLEINE HAUTEUR !) -->
         <!-- ======================================================== -->
-        <aside class="w-48 sm:w-56 flex-none h-full bg-base-100 border-l border-base-content/10 flex flex-col z-30 shadow-2xl">
+        <aside class="w-40 sm:w-52 md:w-56 flex-none h-full bg-base-100 border-l border-base-content/10 flex flex-col z-20 shadow-2xl">
             <!-- En-tête de la colonne -->
-            <div class="p-2 border-b border-base-content/10 bg-base-200/80 flex justify-between items-center text-xs font-bold flex-none">
+            <div class="p-1.5 sm:p-2 border-b border-base-content/10 bg-base-200/80 flex justify-between items-center text-[11px] sm:text-xs font-bold flex-none">
                 <span>Paliers (@(currentStepIndex + 1)/@workout.WorkoutStepsArray.Count)</span>
-                <span class="badge badge-sm badge-neutral">@workout.FormattedTotalTime</span>
+                <span class="badge badge-xs sm:badge-sm badge-neutral">@workout.FormattedTotalTime</span>
             </div>
 
             <!-- Ascenseur / Liste verticale des 30 étapes (PREND TOUTE LA HAUTEUR) -->
@@ -279,21 +279,21 @@ else
                     var rEndW = (int)Math.Round(step.EndPower * userFtp * (intensityBias / 100.0));
 
                     <div id="step-row-@idx"
-                         class="p-1.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between gap-1.5 @(isCurrent ? "bg-blue-700 text-white font-bold shadow-md border-blue-400 ring-2 ring-blue-500/40 scale-[1.01]" : isPast ? "opacity-40 bg-base-200/40 border-transparent hover:opacity-80" : "bg-base-200/80 border-base-content/5 hover:border-base-content/20")"
+                         class="p-1 sm:p-1.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between gap-1 @(isCurrent ? "bg-blue-700 text-white font-bold shadow-md border-blue-400 ring-2 ring-blue-500/40 scale-[1.01]" : isPast ? "opacity-40 bg-base-200/40 border-transparent hover:opacity-80" : "bg-base-200/80 border-base-content/5 hover:border-base-content/20")"
                          @onclick="() => JumpToStep(idx)">
-                        <div class="flex items-center gap-1.5 truncate">
-                            <span class="w-1.5 h-6 rounded-full flex-none" style="background-color: @zoneColor"></span>
+                        <div class="flex items-center gap-1 sm:gap-1.5 truncate">
+                            <span class="w-1.5 h-5 sm:h-6 rounded-full flex-none" style="background-color: @zoneColor"></span>
                             <div class="truncate">
-                                <div class="truncate leading-tight font-semibold">
+                                <div class="truncate leading-tight font-semibold text-[11px] sm:text-xs">
                                     @(step.IsRamp ? $"Rampe {rStartW}→{rEndW}W" : $"{targetW} W")
                                 </div>
-                                <div class="text-[9px] opacity-70">
+                                <div class="text-[8px] sm:text-[9px] opacity-70 truncate">
                                     @step.GetZoneName(ratio)
                                 </div>
                             </div>
                         </div>
 
-                        <div class="text-right font-mono flex-none font-bold text-xs">
+                        <div class="text-right font-mono flex-none font-bold text-[10px] sm:text-xs">
                             @(isCurrent ? FormatTime(stepRemainingSeconds) : FormatTime(step.Time))
                         </div>
                     </div>
