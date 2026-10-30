@@ -174,10 +174,17 @@
             </div>
 
             <!-- RÉGLAGE GÉANT DE L'INTENSITÉ / FTP BIAS -->
-            <div class="bg-base-100 rounded-2xl p-3 border border-base-content/10 shadow flex flex-col gap-2">
-                <div class="flex items-center justify-between text-xs font-bold px-1 opacity-70">
-                    <span>RÉGLAGE INTENSITÉ</span>
-                    <span class="text-primary font-mono text-sm">@state.IntensityBias% (@state.TargetWatts W)</span>
+            <div class="bg-base-100 rounded-2xl p-3 border border-base-content/10 shadow flex flex-col gap-3">
+                <div class="flex items-center justify-between px-1">
+                    <div class="text-3xl sm:text-4xl font-black font-mono text-primary leading-none">
+                        @state.IntensityBias% <span class="text-xl sm:text-2xl font-bold text-warning font-sans">(@state.TargetWatts W)</span>
+                    </div>
+                    <button class="btn @(state.IntensityBias != 100 ? "btn-warning btn-md" : "btn-ghost btn-md opacity-40") font-bold rounded-2xl shadow active:scale-95 transition-transform"
+                            @onclick="ResetIntensity"
+                            disabled="@(state.IntensityBias == 100)"
+                            title="Revenir à l'intensité par défaut (100%)">
+                        ↺ Défaut (100%)
+                    </button>
                 </div>
                 <div class="flex items-center gap-3">
                     <button class="btn btn-neutral btn-lg flex-1 text-2xl font-black h-16 shadow active:scale-95 transition-transform"
@@ -469,9 +476,9 @@
         catch { }
     }
 
-    private async Task SendCommand(string action, int delta = 0)
+    private async Task SendCommand(string action, int delta = 0, int value = 0)
     {
-        var cmd = new { action, delta };
+        var cmd = new { action, delta, value };
         var json = System.Text.Json.JsonSerializer.Serialize(cmd);
         try
         {
@@ -481,6 +488,7 @@
     }
 
     private Task AdjustIntensity(int delta) => SendCommand("adjustIntensity", delta);
+    private Task ResetIntensity() => SendCommand("setIntensity", value: 100);
     private Task TogglePlay() => SendCommand("togglePlay");
     private Task PreviousStep() => SendCommand("prevStep");
     private Task NextStep() => SendCommand("nextStep");

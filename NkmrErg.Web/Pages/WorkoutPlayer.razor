@@ -159,10 +159,22 @@ else
                 <!-- Indicateur rapide palier suivant en bas de zone centrale -->
                 @if (nextStep != null)
                 {
+                    var nRatio = (nextStep.IsRamp ? nextStep.StartPower : nextStep.Power) * (intensityBias / 100.0);
+                    var nColor = nextStep.GetZoneColor(nRatio);
                     <div class="z-10 bg-black/60 backdrop-blur-md rounded-md py-0.5 px-2 text-[11px] self-start flex items-center gap-1.5 border border-white/10 text-white">
                         <span class="opacity-60">À suivre :</span>
-                        <span class="w-2 h-2 rounded-full" style="background-color: @nextStep.GetZoneColor(nextStep.IsRamp ? nextStep.StartPower : nextStep.Power)"></span>
-                        <strong>@Math.Round((nextStep.IsRamp ? nextStep.StartPower : nextStep.Power) * userFtp) W</strong>
+                        <span class="w-2 h-2 rounded-full" style="background-color: @nColor"></span>
+                        @if (nextStep.IsRamp)
+                        {
+                            var nStartW = (int)Math.Round(nextStep.StartPower * userFtp * (intensityBias / 100.0));
+                            var nEndW = (int)Math.Round(nextStep.EndPower * userFtp * (intensityBias / 100.0));
+                            <strong>Rampe @nStartW→@(nEndW)W</strong>
+                        }
+                        else
+                        {
+                            var nW = (int)Math.Round(nextStep.Power * userFtp * (intensityBias / 100.0));
+                            <strong>@nW W</strong>
+                        }
                         <span>(@FormatTime(nextStep.Time))</span>
                     </div>
                 }
@@ -260,9 +272,11 @@ else
                     var step = workout.WorkoutStepsArray[idx];
                     var isCurrent = (idx == currentStepIndex);
                     var isPast = (idx < currentStepIndex);
-                    var ratio = step.IsRamp ? ((step.StartPower + step.EndPower) / 2.0) : step.Power;
-                    var targetW = (int)Math.Round(ratio * userFtp * (intensityBias / 100.0));
+                    var ratio = (step.IsRamp ? ((step.StartPower + step.EndPower) / 2.0) : step.Power) * (intensityBias / 100.0);
+                    var targetW = (int)Math.Round(ratio * userFtp);
                     var zoneColor = step.GetZoneColor(ratio);
+                    var rStartW = (int)Math.Round(step.StartPower * userFtp * (intensityBias / 100.0));
+                    var rEndW = (int)Math.Round(step.EndPower * userFtp * (intensityBias / 100.0));
 
                     <div id="step-row-@idx"
                          class="p-1.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between gap-1.5 @(isCurrent ? "bg-blue-700 text-white font-bold shadow-md border-blue-400 ring-2 ring-blue-500/40 scale-[1.01]" : isPast ? "opacity-40 bg-base-200/40 border-transparent hover:opacity-80" : "bg-base-200/80 border-base-content/5 hover:border-base-content/20")"
@@ -271,7 +285,7 @@ else
                             <span class="w-1.5 h-6 rounded-full flex-none" style="background-color: @zoneColor"></span>
                             <div class="truncate">
                                 <div class="truncate leading-tight font-semibold">
-                                    @(step.IsRamp ? $"Rampe {Math.Round(step.StartPower*userFtp)}→{Math.Round(step.EndPower*userFtp)}W" : $"{targetW} W")
+                                    @(step.IsRamp ? $"Rampe {rStartW}→{rEndW}W" : $"{targetW} W")
                                 </div>
                                 <div class="text-[9px] opacity-70">
                                     @step.GetZoneName(ratio)
@@ -286,10 +300,16 @@ else
                 }
             </div>
 
-            <!-- Pied de la colonne droite : Réglage rapide FTP / Intensité (-1% et +1%) -->
-            <div class="p-2 border-t border-base-content/10 bg-base-200/90 flex flex-col gap-1 flex-none shadow-inner">
-                <div class="text-[10px] font-bold uppercase tracking-wider opacity-70 text-center">
-                    Intensité : @intensityBias% (@currentTargetWatts W)
+            <!-- Pied de la colonne droite : Réglage rapide FTP / Intensité (-1% et +1%) avec Reset 100% -->
+            <div class="p-2 border-t border-base-content/10 bg-base-200/90 flex flex-col gap-1.5 flex-none shadow-inner">
+                <div class="flex items-center justify-between text-[11px] font-bold px-1">
+                    <span class="opacity-70">Intensité : @intensityBias% (@currentTargetWatts W)</span>
+                    @if (intensityBias != 100)
+                    {
+                        <button class="btn btn-warning btn-xs font-bold shadow-sm" @onclick="() => SetIntensity(100)" title="Réinitialiser à 100%">
+                            ↺ 100%
+                        </button>
+                    }
                 </div>
                 <div class="flex items-center justify-between gap-2">
                     <button class="btn btn-neutral btn-sm flex-1 font-bold text-sm" @onclick="() => AdjustIntensity(-1)">-1%</button>
@@ -384,7 +404,7 @@ else
     public string Id { get; set; } = "";
 
     private MyWhooshWorkout? workout;
-    private int userFtp = 200;
+    private int userFtp = 175;
     private int intensityBias = 100;
 
     // État
@@ -607,12 +627,6 @@ else
                 if (messageDisplaySeconds == 0) activeMessage = "";
             }
 
-            // Rampes
-            if (currentStep.IsRamp)
-            {
-                UpdateTargetPower(forceSendToTrainer: true);
-            }
-
             // Fin de palier
             if (stepRemainingSeconds <= 0)
             {
@@ -626,6 +640,11 @@ else
                     activeMessage = "🎉 Entraînement terminé ! Félicitations !";
                     break;
                 }
+            }
+            else if (currentStep.IsRamp)
+            {
+                // Mettre à jour la rampe uniquement tant que le palier est en cours
+                UpdateTargetPower(forceSendToTrainer: true);
             }
 
             _ = UpdateTronHighway();
@@ -660,10 +679,16 @@ else
 
     private void AdjustIntensity(int delta)
     {
-        intensityBias = Math.Clamp(intensityBias + delta, 50, 150);
+        SetIntensity(intensityBias + delta);
+    }
+
+    private void SetIntensity(int value)
+    {
+        intensityBias = Math.Clamp(value, 50, 150);
         UpdateTargetPower(forceSendToTrainer: true);
         _ = UpdateTronHighway();
         BroadcastStateToCompanion();
+        StateHasChanged();
     }
 
     private async Task ConnectBluetooth(bool useMock)
@@ -795,6 +820,13 @@ else
                         if (root.TryGetProperty("delta", out var deltaProp))
                         {
                             AdjustIntensity(deltaProp.GetInt32());
+                            await InvokeAsync(StateHasChanged);
+                        }
+                        break;
+                    case "setIntensity":
+                        if (root.TryGetProperty("value", out var valProp))
+                        {
+                            SetIntensity(valProp.GetInt32());
                             await InvokeAsync(StateHasChanged);
                         }
                         break;

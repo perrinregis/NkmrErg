@@ -16,13 +16,18 @@
                     var s = Workout.WorkoutStepsArray[i];
                     if (s.IsRamp)
                     {
-                        var cStart = s.GetZoneColor(s.StartPower);
-                        var cEnd = s.GetZoneColor(s.EndPower);
-                        <linearGradient id="grad-@Workout.Id-@i" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="@cStart" />
-                            <stop offset="100%" stop-color="@cEnd" />
-                        </linearGradient>
+                        var sWidth = (double)Math.Max(s.Time, 1);
+                        var pStart = currentX;
+                        var pEnd = currentX + sWidth;
+                        var yS = svgHeight - (Math.Clamp(s.StartPower, 0.05, maxRatio) / maxRatio * svgHeight);
+                        var yE = svgHeight - (Math.Clamp(s.EndPower, 0.05, maxRatio) / maxRatio * svgHeight);
+                        var pts = $"{pStart.ToString(System.Globalization.CultureInfo.InvariantCulture)},{svgHeight} {pStart.ToString(System.Globalization.CultureInfo.InvariantCulture)},{yS.ToString(System.Globalization.CultureInfo.InvariantCulture)} {pEnd.ToString(System.Globalization.CultureInfo.InvariantCulture)},{yE.ToString(System.Globalization.CultureInfo.InvariantCulture)} {pEnd.ToString(System.Globalization.CultureInfo.InvariantCulture)},{svgHeight}";
+
+                        <clipPath id="ramp-clip-@Workout.Id-@i">
+                            <polygon points="@pts" />
+                        </clipPath>
                     }
+                    currentX += Math.Max(s.Time, 1);
                 }
             </defs>
 
@@ -32,7 +37,7 @@
             }
             <line x1="0" y1="@y100Ftp" x2="@totalTime" y2="@y100Ftp" stroke="rgba(255,255,255,0.15)" stroke-width="1" stroke-dasharray="4,4" />
 
-            <!-- Intervalles (rectangles ou trapèzes dégradés) -->
+            <!-- Intervalles (rectangles ou rampes découpées par zones MyWhoosh) -->
             @{
                 currentX = 0.0;
                 for (int i = 0; i < Workout.WorkoutStepsArray.Count; i++)
@@ -50,11 +55,19 @@
                         var yEnd = svgHeight - (Math.Clamp(step.EndPower, 0.05, maxRatio) / maxRatio * svgHeight);
                         var points = $"{xStart.ToString(System.Globalization.CultureInfo.InvariantCulture)},{svgHeight} {xStart.ToString(System.Globalization.CultureInfo.InvariantCulture)},{yStart.ToString(System.Globalization.CultureInfo.InvariantCulture)} {xEnd.ToString(System.Globalization.CultureInfo.InvariantCulture)},{yEnd.ToString(System.Globalization.CultureInfo.InvariantCulture)} {xEnd.ToString(System.Globalization.CultureInfo.InvariantCulture)},{svgHeight}";
 
-                        <polygon points="@points"
-                                 fill="url(#grad-@Workout.Id-@idx)"
-                                 class="cursor-pointer transition-opacity @(isCurrent ? "opacity-100" : "opacity-75 hover:opacity-100")"
-                                 @onclick="() => HandleStepClick(idx)">
-                        </polygon>
+                        <!-- Rampe découpée par zones de puissance MyWhoosh sous son clipPath trapézoïdal -->
+                        <g clip-path="url(#ramp-clip-@Workout.Id-@idx)"
+                           class="cursor-pointer transition-opacity @(isCurrent ? "opacity-100" : "opacity-80 hover:opacity-100")"
+                           @onclick="() => HandleStepClick(idx)">
+                            @foreach (var slice in GetRampZoneSlices(step.StartPower, step.EndPower, xStart, stepWidth))
+                            {
+                                <rect x="@slice.X.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                                      y="0"
+                                      width="@slice.Width.ToString(System.Globalization.CultureInfo.InvariantCulture)"
+                                      height="@svgHeight"
+                                      fill="@slice.Color" />
+                            }
+                        </g>
 
                         @if (isCurrent)
                         {
@@ -78,7 +91,7 @@
                               width="@stepWidth.ToString(System.Globalization.CultureInfo.InvariantCulture)"
                               height="@h.ToString(System.Globalization.CultureInfo.InvariantCulture)"
                               fill="@color"
-                              class="cursor-pointer transition-opacity @(isCurrent ? "opacity-100" : "opacity-75 hover:opacity-100")"
+                              class="cursor-pointer transition-opacity @(isCurrent ? "opacity-100" : "opacity-80 hover:opacity-100")"
                               @onclick="() => HandleStepClick(idx)">
                         </rect>
 
@@ -127,6 +140,53 @@
 
     [Parameter]
     public EventCallback<int> OnStepClicked { get; set; }
+
+    private static readonly (double Min, double Max, string Color)[] ZoneRanges = new[]
+    {
+        (0.00, 0.55, "#AFBCC7"), // Z1 Récupération (Gris)
+        (0.55, 0.75, "#1FAEE0"), // Z2 Endurance (Bleu)
+        (0.75, 0.90, "#37BF7C"), // Z3 Tempo (Vert)
+        (0.90, 1.05, "#F8B214"), // Z4 Seuil (Jaune)
+        (1.05, 1.20, "#FF693C"), // Z5 VO2 Max (Orange)
+        (1.20, 99.0, "#CD0606")  // Z6 Anaérobie (Rouge)
+    };
+
+    private static IEnumerable<(double X, double Width, string Color)> GetRampZoneSlices(double startPower, double endPower, double xStart, double stepWidth)
+    {
+        if (Math.Abs(endPower - startPower) < 0.0001)
+        {
+            var c = "#AFBCC7";
+            foreach (var z in ZoneRanges)
+            {
+                if (startPower < z.Max) { c = z.Color; break; }
+            }
+            yield return (xStart, stepWidth, c);
+            yield break;
+        }
+
+        bool isUp = endPower > startPower;
+        foreach (var z in ZoneRanges)
+        {
+            double u1, u2;
+            if (isUp)
+            {
+                u1 = Math.Clamp((z.Min - startPower) / (endPower - startPower), 0.0, 1.0);
+                u2 = Math.Clamp((z.Max - startPower) / (endPower - startPower), 0.0, 1.0);
+            }
+            else
+            {
+                u1 = Math.Clamp((startPower - z.Max) / (startPower - endPower), 0.0, 1.0);
+                u2 = Math.Clamp((startPower - z.Min) / (startPower - endPower), 0.0, 1.0);
+            }
+
+            if (u2 > u1)
+            {
+                double sliceX = xStart + (u1 * stepWidth);
+                double sliceW = (u2 - u1) * stepWidth;
+                yield return (sliceX, sliceW, z.Color);
+            }
+        }
+    }
 
     private async Task HandleStepClick(int index)
     {

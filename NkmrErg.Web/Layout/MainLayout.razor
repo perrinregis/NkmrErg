@@ -1,7 +1,7 @@
 @inherits LayoutComponentBase
 
 <div class="drawer drawer-end">
-    <input id="main-drawer" type="checkbox" class="drawer-toggle" @bind="isDrawerOpen" />
+    <input id="main-drawer" type="checkbox" class="drawer-toggle" checked="@isDrawerOpen" />
     <div class="drawer-content flex flex-col h-screen overflow-hidden bg-base-200">
         <!-- Top Navbar -->
         <header class="navbar bg-primary text-primary-content shadow-lg z-20 flex-none px-4">
@@ -16,11 +16,11 @@
             <div class="navbar-center hidden md:flex">
             </div>
             <div class="navbar-end">
-                <label for="main-drawer" class="btn btn-ghost btn-circle drawer-button" title="Menu">
+                <button type="button" class="btn btn-ghost btn-circle drawer-button" @onclick="OpenDrawer" title="Menu">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
                     </svg>
-                </label>
+                </button>
             </div>
         </header>
 
@@ -67,7 +67,7 @@
 
     <!-- Sidebar (Drawer Side à droite) -->
     <div class="drawer-side z-50">
-        <label for="main-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
+        <div class="drawer-overlay" @onclick="CloseDrawer"></div>
         <div class="p-6 w-80 min-h-full bg-base-100 text-base-content flex flex-col justify-between border-l border-base-300 shadow-2xl">
             <div>
                 <!-- Entête du Menu -->
@@ -81,11 +81,11 @@
                             <div class="text-xs opacity-60">Cockpit d'entraînement</div>
                         </div>
                     </div>
-                    <label for="main-drawer" class="btn btn-ghost btn-sm btn-circle" @onclick="CloseDrawer">
+                    <button type="button" class="btn btn-ghost btn-sm btn-circle" @onclick="CloseDrawer" title="Fermer le menu">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
-                    </label>
+                    </button>
                 </div>
 
                 <!-- Liste des liens avec icônes pour TOUS les éléments -->
@@ -162,6 +162,11 @@
 
 @code {
     private bool isDrawerOpen = false;
+
+    private void OpenDrawer()
+    {
+        isDrawerOpen = true;
+    }
 
     private void CloseDrawer()
     {

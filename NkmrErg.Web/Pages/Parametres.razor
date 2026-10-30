@@ -53,27 +53,27 @@
                 <div class="mt-6 border-t border-base-300 pt-4">
                     <h4 class="text-sm font-semibold mb-3">Vos Zones d'entraînement selon cette FTP :</h4>
                     <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-                        <div class="p-2 rounded bg-base-200 border-l-4 border-slate-400">
+                        <div class="p-2 rounded bg-base-200 border-l-4" style="border-color: #AFBCC7;">
                             <div class="font-bold">Z1 Récupération</div>
                             <div>&lt; @Math.Round(userFtp * 0.55) W (&lt; 55%)</div>
                         </div>
-                        <div class="p-2 rounded bg-base-200 border-l-4 border-blue-600">
+                        <div class="p-2 rounded bg-base-200 border-l-4" style="border-color: #1FAEE0;">
                             <div class="font-bold">Z2 Endurance</div>
                             <div>@Math.Round(userFtp * 0.55) - @Math.Round(userFtp * 0.75) W (56-75%)</div>
                         </div>
-                        <div class="p-2 rounded bg-base-200 border-l-4 border-green-500">
+                        <div class="p-2 rounded bg-base-200 border-l-4" style="border-color: #37BF7C;">
                             <div class="font-bold">Z3 Tempo</div>
                             <div>@Math.Round(userFtp * 0.76) - @Math.Round(userFtp * 0.90) W (76-90%)</div>
                         </div>
-                        <div class="p-2 rounded bg-base-200 border-l-4 border-yellow-500">
+                        <div class="p-2 rounded bg-base-200 border-l-4" style="border-color: #F8B214;">
                             <div class="font-bold">Z4 Seuil (FTP)</div>
                             <div>@Math.Round(userFtp * 0.91) - @Math.Round(userFtp * 1.05) W (91-105%)</div>
                         </div>
-                        <div class="p-2 rounded bg-base-200 border-l-4 border-orange-500">
+                        <div class="p-2 rounded bg-base-200 border-l-4" style="border-color: #FF693C;">
                             <div class="font-bold">Z5 VO2 Max</div>
                             <div>@Math.Round(userFtp * 1.06) - @Math.Round(userFtp * 1.20) W (106-120%)</div>
                         </div>
-                        <div class="p-2 rounded bg-base-200 border-l-4 border-red-500">
+                        <div class="p-2 rounded bg-base-200 border-l-4" style="border-color: #CD0606;">
                             <div class="font-bold">Z6 Anaérobie</div>
                             <div>&gt; @Math.Round(userFtp * 1.20) W (&gt; 120%)</div>
                         </div>
@@ -120,7 +120,7 @@
 </div>
 
 @code {
-    private int userFtp = 200;
+    private int userFtp = 175;
     private bool saveMessageVisible = false;
     private string currentTheme = "dark";
 

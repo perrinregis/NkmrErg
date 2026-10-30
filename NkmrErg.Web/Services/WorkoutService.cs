@@ -29,7 +29,7 @@ namespace NkmrErg.Web.Services
         public async Task<int> GetFtpAsync()
         {
             var ftp = await _localStorage.GetItemAsync<int?>(FtpStorageKey);
-            return (ftp.HasValue && ftp.Value > 50) ? ftp.Value : 200; // 200W par défaut
+            return (ftp.HasValue && ftp.Value > 50) ? ftp.Value : 175; // 175W par défaut
         }
 
         public async Task SetFtpAsync(int ftp)

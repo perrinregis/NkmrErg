@@ -59,12 +59,12 @@ namespace NkmrErg.Web.Models
 
         public string GetZoneColor(double ratio)
         {
-            if (ratio < 0.55) return "#94a3b8"; // Slate / Gris
-            if (ratio < 0.75) return "#2563eb"; // Bleu franc (lisible sur TV, non fluo)
-            if (ratio < 0.90) return "#22c55e"; // Vert
-            if (ratio < 1.05) return "#eab308"; // Jaune
-            if (ratio < 1.20) return "#f97316"; // Orange
-            return "#ef4444"; // Rouge
+            if (ratio < 0.55) return "#AFBCC7"; // Z1 - Récupération (Gris MyWhoosh)
+            if (ratio < 0.75) return "#1FAEE0"; // Z2 - Endurance (Bleu MyWhoosh)
+            if (ratio < 0.90) return "#37BF7C"; // Z3 - Tempo (Vert MyWhoosh)
+            if (ratio < 1.05) return "#F8B214"; // Z4 - Seuil (Jaune MyWhoosh)
+            if (ratio < 1.20) return "#FF693C"; // Z5 - VO2 Max (Orange MyWhoosh)
+            return "#CD0606"; // Z6 - Anaérobie (Rouge MyWhoosh)
         }
     }
 

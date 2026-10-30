@@ -178,6 +178,9 @@ window.trainerBluetooth = window.wahooBluetooth = {
         this.lastCadenceSent = 0;
     },
 
+    _isWritingPower: false,
+    _pendingTargetPower: null,
+
     setTargetPower: async function (power) {
         if (this.isMock) {
             console.log("SIMULATEUR: Target power set to " + power + "W");
@@ -189,19 +192,33 @@ window.trainerBluetooth = window.wahooBluetooth = {
             console.error("FTMS Control point not available.");
             return false;
         }
+
+        this._pendingTargetPower = power;
+        if (this._isWritingPower) {
+            // Un envoi est déjà en cours sur le Bluetooth FTMS, la valeur en attente sera envoyée dès la fin du transfert
+            return true;
+        }
+
+        this._isWritingPower = true;
         try {
-            // Op code 0x05 : Set Target Power (SINT16, little-endian)
-            const buffer = new ArrayBuffer(3);
-            const view = new DataView(buffer);
-            view.setUint8(0, 0x05); // Op Code
-            view.setInt16(1, power, true); // Power in Watts
-            
-            await this.controlPointCharacteristic.writeValue(buffer);
-            console.log("Target power set to " + power + "W");
+            while (this._pendingTargetPower !== null) {
+                const targetToSend = this._pendingTargetPower;
+                this._pendingTargetPower = null;
+
+                const buffer = new ArrayBuffer(3);
+                const view = new DataView(buffer);
+                view.setUint8(0, 0x05); // Op Code
+                view.setInt16(1, targetToSend, true); // Power in Watts
+
+                await this.controlPointCharacteristic.writeValue(buffer);
+                console.log("Target power set to " + targetToSend + "W");
+            }
             return true;
         } catch(e) {
             console.error("Failed to set target power", e);
             return false;
+        } finally {
+            this._isWritingPower = false;
         }
     },
 
